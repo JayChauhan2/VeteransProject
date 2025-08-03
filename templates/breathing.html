@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Breathing Exercise{% endblock %}
+
+{% block content %}
+<h1>Breathing Exercises</h1>
+
+<p id = "breathWelcome">Welcome! Please select a breathing exercise:</p>
+
+<div id = "breath">
+    <button class = 'breathButton'><a href="{{ url_for('box') }}"><p>Box Breathing</p></a></button>
+</div>
+<br>
+<div id = "breath">
+    <button  class = 'breathButton'><a href="{{ url_for('deep') }}"><p>Deep Breathing</p></a> </button>
+</div>
+<br>
+<div id = "breath">
+    <button class = 'breathButton'><a href="{{ url_for('winHof') }}"><p>Win Hof Method</p></a></button>
+</div>
+{% endblock %}  
