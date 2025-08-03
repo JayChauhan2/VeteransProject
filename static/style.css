@@ -1,0 +1,227 @@
+/*Some of the css is from one of my old app dev assignments (the relevant ones will most likely be labeled with buttons)*/
+
+body {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #E0F5FF;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    padding-top: 40px;   
+    padding-bottom: 75px;
+}
+h1{
+    font-size: 60px;
+    margin-top: 70px;
+
+}
+h1, h2, h3 {
+    text-align: center;
+}
+
+
+
+img {
+    width:50px ;
+    height:50px ;
+}
+
+.homeText{
+    margin-left: 50px;
+    font-size: 28px;   
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+.buttonText{
+    width: 130px;
+    height: 75px;
+    border-radius: 25px;
+    margin-right: 35px;
+    background-color: #E0F5FF;
+    font-size: 20px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+.buttonText:hover{
+    background-color: #9bdcf0;
+}
+
+#breathHolder{  
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+.breathButton{
+    background-color: #E0DCFF;
+    border-radius: 30px;
+    width: 650px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+
+#breathWelcome{
+    text-align: center;
+    font-size: 27px;
+
+}
+
+#breath{
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#bidailyHolder{
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+#appointmentHolder{
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+/* Navigation Bar */
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #9bdcf0;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px gray;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: white;
+    display: flex;
+    display: flex;
+    align-items: center;
+    background-color: #9bdcf0;
+    padding: 15px 20px;
+    z-index: -2345;
+}
+
+nav a {
+    text-decoration: none;
+    color: azure;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: slategray;
+}
+
+.cardHolder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.prevEnc {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    max-width: 30vh;
+    min-width: 300px;
+}
+
+.thumb {
+    max-height: 200px;
+    max-width: 200px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+}
+
+.docHolder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.buttonHolder {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+/* #cal {
+    height: 200px;
+    width: 200px;
+} */
+
+/* Forms */
+input, textarea, button {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 10px 0;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* input:focus, textarea:focus {
+    outline: none;
+    border-color: #007B8A;
+    box-shadow: 0 0 5px #007B8A;
+} */
+
