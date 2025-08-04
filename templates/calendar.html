@@ -3,5 +3,118 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
 
+<style>
+  /* Make calendar day cells white and add a subtle border */
+  .fc-daygrid-day,
+  .fc-daygrid-day-frame {
+    background: #fff !important;
+    border: 1px solid #e0e0e0 !important;
+  }
+
+  /* Optional: Add a slight shadow to the calendar for contrast */
+  #calendar {
+    position: relative;
+    margin-top: 6%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background: #f8f9fa;
+    padding: 8px;
+    width: 100%;
+    min-height: 60vh;
+  }
+
+  /* Highlight selected day */
+  .selected-day {
+    box-shadow: 0 0 0 2px #007B8A;
+    border: 2px solid #007B8A !important;
+    z-index: 2;
+  }
+
+  /* Make the calendar wrapper use 90% of the viewport width */
+  .calendar-wrapper {
+    width: 100%;
+    margin: auto;
+  }
+
+  /* Make FullCalendar view buttons (month, week, day) bigger and styled */
+  .fc-header-toolbar .fc-button {
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: 0 4px;
+    background: #007B8A;
+    color: #fff;
+    border: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s;
+    min-height: 44px;
+    height: 44px;
+    line-height: 1.2;
+  }
+
+  /* Ensure 'today' button matches height and style of nav buttons */
+  .fc-header-toolbar .fc-button.fc-button-today {
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: 0 16px 0 4px;
+    /* extra right margin to match left/right buttons */
+    min-height: 44px;
+    height: 44px;
+    line-height: 1.2;
+  }
+
+  .fc-header-toolbar .fc-button:hover,
+  .fc-header-toolbar .fc-button:focus {
+    background: #005f6b;
+    color: #fff;
+  }
+
+  .fc-header-toolbar .fc-button-active {
+    background: #005f6b;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 123, 138, 0.12);
+  }
+</style>
+
+<div class="calendar-wrapper">
+  <div id="calendar"></div>
+</div>
+
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var selectedCell = null;
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: '100%',
+      aspectRatio: 1.5,
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'today'
+      },
+      buttonText: {
+        today: 'Today'
+      },
+      dateClick: function (info) {
+        // Remove highlight from previous selection
+        if (selectedCell) {
+          selectedCell.classList.remove('selected-day');
+        }
+        // Find the clicked cell and highlight it
+        selectedCell = info.dayEl;
+        selectedCell.classList.add('selected-day');
+        console.log('Selected date:', info.dateStr);
+      }
+    });
+    calendar.render();
+  });
+</script>
 {% endblock %}
