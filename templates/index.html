@@ -3,22 +3,34 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-<h1>Welcome Name</h1>
+<h1>Welcome {Name}</h1>
 <!-- Breathing exercises -->
-<div id="breathHolder">
-    <h3 class="homeText">Breathing<br> Exercises</h3>
-    <button class="buttonText"><a href="{{ url_for('breathing') }}"><p>Start</p></a></button>
-</div>
+<a href="{{ url_for('breathing') }}" class="holder-link">
+    <div class="holder" id="breathHolder">
+        <div class="holder-content">
+            <h3 class="homeText">Breathing<br> Exercises</h3>
+        </div>
+        <div class="holder-action breath-action">Start</div>
+    </div>
+</a>
 <br><br>
-<!-- Appointments/Calender/Medicaiton -->
-<div id="appointmentHolder">
-    <h3 class="homeText">Appointments & <br> Medication</h3>
-    <button class="buttonText"><a href="{{ url_for('calendar') }}"><p>Start</p></a></button>
-</div>
+<!-- Appointments/Calender/Medication -->
+<a href="{{ url_for('calendar') }}" class="holder-link">
+    <div class="holder" id="appointmentHolder">
+        <div class="holder-content">
+            <h3 class="homeText">Appointments & <br> Medication</h3>
+        </div>
+        <div class="holder-action appointment-action">View</div>
+    </div>
+</a>
 <br><br>
 <!-- Bi-daily check-ins -->
-<div id="bidailyHolder">
-    <h3 class="homeText">Bi-Daily <br> Check-Ins</h3>
-    <button class="buttonText"><a href="{{ url_for('chat') }}"><p>Start</p></a></button>
-</div>
+<a href="{{ url_for('chat') }}" class="holder-link">
+    <div class="holder" id="bidailyHolder">
+        <div class="holder-content">
+            <h3 class="homeText">Bi-Daily <br> Check-Ins</h3>
+        </div>
+        <div class="holder-action bidaily-action">Start</div>
+    </div>
+</a>
 {% endblock %}

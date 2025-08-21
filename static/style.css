@@ -1,3 +1,95 @@
+/* Mobile-friendly holder layout */
+
+
+.holder-link {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+
+.holder {
+    background-color: white;
+    border-radius: 30px;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    border: 2px solid #007B8A;
+}
+
+.holder:hover {
+    box-shadow: 0 4px 16px rgba(0, 123, 138, 0.18);
+}
+
+.holder-content {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 50px;
+    height: 100%;
+}
+
+.holder-action {
+    flex: 1;
+    height: 100%;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+    transition: background 0.2s;
+}
+
+.breath-action {
+    background-color: #9bdcf0;
+}
+
+.appointment-action {
+    background-color: var(--calendar-blue);
+}
+
+.bidaily-action {
+    background-color: #E0DCFF;
+    color: #333;
+}
+
+@media (max-width: 700px) {
+    .holder-link {
+        max-width: 98vw;
+    }
+
+    .holder {
+        height: 90px;
+        border-radius: 18px;
+    }
+
+    .holder-content {
+        padding-left: 12px;
+    }
+
+    .homeText {
+        font-size: 1.1em;
+        margin-left: 0;
+    }
+
+    .holder-action {
+        font-size: 1em;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+}
+
 /*Some of the css is from one of my old app dev assignments (the relevant ones will most likely be labeled with buttons)*/
 
 :root {
@@ -20,6 +112,13 @@ h1 {
 
 }
 
+h2 {
+    font-size: 40px;
+    margin-top: 35px;
+    margin-left: 3%;
+
+}
+
 h1,
 h2,
 h3 {
@@ -32,8 +131,10 @@ img {
 }
 
 .homeText {
-    margin-left: 50px;
-    font-size: 28px;
+    margin-left: 0;
+    font-size: 2.2em;
+    text-align: left;
+    display: block;
 }
 
 a {
@@ -241,7 +342,7 @@ button {
 #calendar {
     position: relative;
     margin-top: 6%;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
     border-radius: 8px;
     background: #f8f9fa;
     padding: 8px;
@@ -391,4 +492,12 @@ button {
 #Activities {
     padding-top: 1.2rem;
     font-size: 2.25rem;
+}
+
+.back {
+    position: absolute;
+    display: inline;
+    font-size: xx-large;
+    top: 3%;
+    padding-left: 2%;
 }
