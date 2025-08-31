@@ -119,6 +119,13 @@ h2 {
 
 }
 
+h3 {
+    font-size: 20px;
+    margin-top: 17.5px;
+    margin-left: 3%;
+
+}
+
 h1,
 h2,
 h3 {
@@ -257,7 +264,7 @@ nav {
     align-items: center;
     background-color: #9bdcf0;
     padding: 15px 20px;
-    z-index: -2345;
+    z-index: 5; /* -2345*/
 }
 
 nav a {
@@ -500,4 +507,10 @@ button {
     font-size: xx-large;
     top: 3%;
     padding-left: 2%;
+}
+
+.resourceh2 {
+    font-weight: normal;
+    font-size: 2em;
+
 }

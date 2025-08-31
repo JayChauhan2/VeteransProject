@@ -45,6 +45,10 @@ def deep():
 def winHof():
     return render_template('breathing.html')
 
+@app.route('/breathing/resources')
+def resources():
+    return render_template('resourcehotline.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
