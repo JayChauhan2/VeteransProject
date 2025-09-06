@@ -1,8 +1,10 @@
 import os
 import secrets
 from groq import Groq
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from dotenv import load_dotenv
+import traceback
+
 
 load_dotenv()
 client = Groq(
@@ -56,27 +58,35 @@ def winHof():
 def resources():
     return render_template('resourcehotline.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
-
-def createLLMResponse(inp):
+@app.route("/getLLMResponse", methods=["POST"])
+def getLLMResponse():
     try:
+        inp = request.json["message"]
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[
             {
                 "role": "user",
-                "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety." + inp
+                "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 500 chars. " + inp
             }
             ],
             temperature=1,
             max_completion_tokens=1024,
             top_p=1,
-            stream=false,
+            stream=False,
             stop=None
         )
-        return completion.choices[0].message
-    except:
-        return "Unable to load summary"
+        print("this: " + str(completion))
+        return jsonify({
+            "response": completion.choices[0].message.content
+        })
+
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": "Unable to load summary"}), 500
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)

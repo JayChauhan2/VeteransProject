@@ -120,7 +120,7 @@ h2 {
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 17.5px;
     margin-left: 3%;
 
@@ -512,5 +512,24 @@ button {
 .resourceh2 {
     font-weight: normal;
     font-size: 2em;
+
+}
+
+.msgholder {
+    position: relative;
+    margin: auto;
+    top: 70em;
+}
+
+#msgtobot {
+    position: absolute;
+    font-size: 2em;
+    height: 6em;
+    width: 20em;
+    left: 50%;
+    transform: translateX(-15%);
+    border-radius: 20px;
+    border: 6px solid rgba(0,123,138,1);
+    resize: none;
 
 }
