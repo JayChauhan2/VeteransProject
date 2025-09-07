@@ -59,17 +59,19 @@ nav {
 }
 
 
-.notifs-holder-holder {
+.notifs-holder-holder, .b-e-holder-holder {
     display: flex;
     justify-content: center;
 }
 
-.notifs {
+.notifs, .breath-exercises {
     display: flex;
     flex-direction: column;
     width: 60%;
     height: auto;
+    border: 10px solid black;
 }
+
 
 .notifs a {
     margin: 1em;
