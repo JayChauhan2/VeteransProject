@@ -12,18 +12,19 @@
 
 <body>
     <!-- The blank blue top bar -->
-    <nav id="topbar"></nav>
+    <nav id="header"></nav>
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
 
     <!-- Bottom navigation bar-->
-    <nav>
+    <nav id="bottombar">
         <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='Home.png') }}"></a>
         <a href="{{ url_for('chat') }}"><img src="{{ url_for('static', filename='Messages.png') }}"></a>
         <a href="{{ url_for('calendar') }}" id="cal"><img src="{{ url_for('static', filename='Calendar.png') }}"></a>
         <a href="{{ url_for('more') }}"><img src="{{ url_for('static', filename='more.png') }}"></a>
     </nav>
-    <div>
-        {% block content %}{% endblock %}
-    </div>
 </body>
 
 </html>

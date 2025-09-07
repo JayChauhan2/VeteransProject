@@ -1,0 +1,578 @@
+/* Mobile-friendly holder layout */
+
+
+.holder-link {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+
+.holder {
+    background-color: white;
+    border-radius: 30px;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    border: 2px solid #007B8A;
+}
+
+.holder:hover {
+    box-shadow: 0 4px 16px rgba(0, 123, 138, 0.18);
+}
+
+.holder-content {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 50px;
+    height: 100%;
+}
+
+.holder-action {
+    flex: 1;
+    height: 100%;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.breath-action {
+    background-color: #9bdcf0;
+}
+
+.appointment-action {
+    background-color: var(--calendar-blue);
+}
+
+.bidaily-action {
+    background-color: #E0DCFF;
+    color: #333;
+}
+
+@media (max-width: 700px) {
+    .holder-link {
+        max-width: 98vw;
+    }
+
+    .holder {
+        height: 90px;
+        border-radius: 18px;
+    }
+
+    .holder-content {
+        padding-left: 12px;
+    }
+
+    .homeText {
+        font-size: 1.1em;
+        margin-left: 0;
+    }
+
+    .holder-action {
+        font-size: 1em;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+}
+
+/*Some of the css is from one of my old app dev assignments (the relevant ones will most likely be labeled with buttons)*/
+
+:root {
+    --calendar-blue: #007B8A;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #E0F5FF;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    padding-top: 40px;
+    padding-bottom: 75px;
+}
+
+h1 {
+    font-size: 60px;
+    margin-top: 70px;
+
+}
+
+h2 {
+    font-size: 40px;
+    margin-top: 35px;
+    margin-left: 3%;
+
+}
+
+h3 {
+    font-size: 25px;
+    margin-top: 17.5px;
+    margin-left: 3%;
+
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}
+
+.homeText {
+    margin-left: 0;
+    font-size: 2.2em;
+    text-align: left;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.buttonText {
+    width: 130px;
+    height: 75px;
+    border-radius: 25px;
+    margin-right: 35px;
+    background-color: #E0F5FF;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.buttonText:hover {
+    background-color: #9bdcf0;
+}
+
+#breathHolder {
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+.breathButton {
+    background-color: #E0DCFF;
+    border-radius: 30px;
+    width: 650px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+
+#breathWelcome {
+    text-align: center;
+    font-size: 27px;
+
+}
+
+#breath {
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#bidailyHolder {
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+#appointmentHolder {
+    background-color: white;
+    border-radius: 30px;
+    width: 650px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid, black, 2px;
+}
+
+/* Navigation Bar */
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #9bdcf0;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px gray;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: white;
+    display: flex;
+    display: flex;
+    align-items: center;
+    background-color: #9bdcf0;
+    padding: 15px 20px;
+    z-index: 5; /* -2345*/
+}
+
+nav a {
+    text-decoration: none;
+    color: azure;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: slategray;
+}
+
+.cardHolder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.prevEnc {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    max-width: 30vh;
+    min-width: 300px;
+}
+
+.thumb {
+    max-height: 200px;
+    max-width: 200px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+}
+
+.docHolder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.buttonHolder {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+/* #cal {
+    height: 200px;
+    width: 200px;
+} */
+
+/* Forms */
+input,
+textarea,
+button {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 10px 0;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+/* Make calendar day cells white and add a subtle border */
+.fc-daygrid-day,
+.fc-daygrid-day-frame {
+    background: #fff !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+/* Optional: Add a slight shadow to the calendar for contrast */
+#calendar {
+    position: relative;
+    margin-top: 6%;
+
+    border-radius: 8px;
+    background: #f8f9fa;
+    padding: 8px;
+    width: 100%;
+    min-height: 50vh;
+}
+
+/* Highlight selected day */
+.selected-day {
+    box-shadow: 0 0 0 2px #007B8A;
+    border: 2px solid #007B8A !important;
+    z-index: 2;
+}
+
+/* Make the calendar wrapper use 90% of the viewport width */
+.calendar-wrapper {
+    width: 100%;
+    margin: auto;
+}
+
+/* Make FullCalendar view buttons (month, week, day) bigger and styled */
+.fc-header-toolbar .fc-button {
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: 0 4px;
+    background: var(--calendar-blue);
+    color: #fff;
+    border: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    min-height: 44px;
+    height: 44px;
+    line-height: 1.2;
+}
+
+/* Ensure 'today' button matches height and style of nav buttons */
+.fc-header-toolbar .fc-button.fc-button-today {
+    font-size: 1.2rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin: 0 16px 0 4px;
+    /* extra right margin to match left/right buttons */
+    min-height: 44px;
+    height: 44px;
+    line-height: 1.2;
+}
+
+.fc-header-toolbar .fc-button:hover,
+.fc-header-toolbar .fc-button:focus {
+    background: #005f6b;
+    color: #fff;
+}
+
+.fc-header-toolbar .fc-button-active {
+    background: #005f6b;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 123, 138, 0.12);
+}
+
+.calendar-plus-btn, .send-btn {
+    position: fixed;
+    left: 50%;
+    bottom: 120px;
+    /* Raised higher above the navbar */
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 110px;
+    /* Bigger button */
+    height: 110px;
+    /* Bigger button */
+    border-radius: 50%;
+    background: var(--calendar-blue);
+    color: #fff;
+    font-size: 4rem;
+    /* Bigger plus sign */
+    border: none;
+    box-shadow: 0 4px 24px rgba(0, 123, 138, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+/* 
+.send-btn {
+    position: relative;
+    width: 80px;
+    height: 80px;
+} */
+
+
+.send-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--calendar-blue);
+    color: #fff;
+    font-size: 2rem; /* smaller size for better alignment */
+    border: none;
+    box-shadow: 0 4px 24px rgba(0, 123, 138, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.calendar-plus-btn:hover,
+.calendar-plus-btn:focus, .send-btn:hover, .send-btn:focus {
+    background: #005f6b;
+    box-shadow: 0 8px 32px rgba(0, 123, 138, 0.32);
+    outline: none;
+}
+
+.calendar-plus-btn span, .send-btn span {
+    line-height: 1;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.send-btn span {
+    font-size: 80%;
+}
+
+/* Style today's date number with a colored box and white text */
+.fc-day-today .fc-daygrid-day-number {
+    background: var(--calendar-blue);
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 123, 138, 0.12);
+    display: inline-block;
+}
+
+/* Style for the Today label under the calendar */
+.calendar-today-label {
+    margin-top: 12px;
+    margin-left: 24px;
+    font-size: 2.4rem;
+    /* Increased size */
+    font-weight: bold;
+    color: var(--calendar-blue);
+    text-align: left;
+    width: 100%;
+}
+
+/* Style for the Activities label under Today */
+.calendar-activities-label {
+    margin-left: 24px;
+    margin-top: 2px;
+    font-size: 1.6rem;
+    /* Slightly bigger, still smaller than Today */
+    color: #7a8a8f;
+    /* Less visible color */
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+}
+
+#NotifsText {
+    margin-left: 1rem;
+}
+
+#Today {
+    font-weight: bold;
+    color: var(--calendar-blue);
+    font-size: 3.75rem;
+    height: 0;
+}
+
+#Activities {
+    padding-top: 1.2rem;
+    font-size: 2.25rem;
+}
+
+.back {
+    position: absolute;
+    display: inline;
+    font-size: xx-large;
+    top: 3%;
+    padding-left: 2%;
+}
+
+.resourceh2 {
+    font-weight: normal;
+    font-size: 2em;
+
+}
+/* 
+.msgholder {
+    position: relative;
+    margin: auto;
+    top: 70em;
+} */
+.msgholder {
+    position: relative;
+    margin: auto;
+    top: 70em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* spacing between msgtobot and send button */
+}
+
+/* 
+#msgtobot {
+    position: absolute;
+    font-size: 2em;
+    height: 6em;
+    width: 20em;
+    left: 50%;
+    transform: translateX(-15%);
+    border-radius: 20px;
+    border: 6px solid rgba(0,123,138,1);
+    resize: none;
+
+} */
+
+#msgtobot {
+    font-size: 2em;
+    height: 6em;
+    width: 20em;
+    border-radius: 20px;
+    border: 6px solid rgba(0,123,138,1);
+    resize: none;
+}
