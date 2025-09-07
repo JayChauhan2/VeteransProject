@@ -4,7 +4,42 @@
 
 {% block content %}
 <h1>Welcome {Name}</h1>
-<!-- Breathing exercises -->
+
+<div class="notifs-holder-holder">
+    <div class="notifs">
+        <a href="{{ url_for('breathing') }}">
+            <div class="notif-frame">
+                <span class="info-text">Breathing<br> Exercises</span>
+                <span class="interact-text">Start</span>
+            </div>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="notif-frame">
+                <span class="info-text">Appointments & <br> Medication</span>
+                <span class="interact-text">View</span>
+            </div>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="notif-frame">
+                <span class="info-text">Daily Check-Ins</span>
+                <span class="interact-text">Start</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+
+<!--
+<a href="{{ url_for('breathing') }}" class="holder-link">
+    <div class="holder" id="breathHolder">
+        <div class="holder-content">
+            <h3 class="homeText">Breathing<br> Exercises</h3>
+        </div>
+        <div class="holder-action breath-action">Start</div>
+    </div>
+</a>
+
+Breathing exercises
 <a href="{{ url_for('breathing') }}" class="holder-link">
     <div class="holder" id="breathHolder">
         <div class="holder-content">
@@ -14,7 +49,7 @@
     </div>
 </a>
 <br><br>
-<!-- Appointments/Calender/Medication -->
+ Appointments/Calender/Medication 
 <a href="{{ url_for('calendar') }}" class="holder-link">
     <div class="holder" id="appointmentHolder">
         <div class="holder-content">
@@ -24,7 +59,7 @@
     </div>
 </a>
 <br><br>
-<!-- Bi-daily check-ins -->
+ Bi-daily check-ins
 <a href="{{ url_for('chat') }}" class="holder-link">
     <div class="holder" id="bidailyHolder">
         <div class="holder-content">
@@ -33,4 +68,5 @@
         <div class="holder-action bidaily-action">Start</div>
     </div>
 </a>
+-->
 {% endblock %}

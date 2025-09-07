@@ -8,10 +8,37 @@
 
 <h1>Breathing Exercises</h1>
 
-<p id = "breathWelcome">Welcome! Please select a breathing exercise:</p>
+<h3>Welcome! Please select a breathing exercise:</h3>
+
+
+<div class="b-e-holder-holder">
+    <div class="breath-exercises">
+        <a href="{{ url_for('breathing') }}">
+            <span>Box Breathing →</span>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <span>Deep Breathing →</span>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <span>Win Hof Breathing →</span>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="notif-frame">
+                <span class="info-text">Appointments & <br> Medication</span>
+                <span class="interact-text">View</span>
+            </div>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="notif-frame">
+                <span class="info-text">Daily Check-Ins</span>
+                <span class="interact-text">Start</span>
+            </div>
+        </a>
+    </div>
+</div>
 
 <div id = "breath">
-    <button class = 'breathButton'><a href="{{ url_for('box') }}"><p>Box Breathing</p></a></button>
+    <button class = 'breathButton'><a href="{{ url_for('box') }}"><p>Box Breathing →</p></a></button>
 </div>
 <br>
 <div id = "breath">

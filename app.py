@@ -56,7 +56,7 @@ def winHof():
 
 @app.route('/breathing/resources')
 def resources():
-    return render_template('resourcehotline.html')
+    return render_template('resources.html')
 
 
 
