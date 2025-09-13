@@ -12,38 +12,14 @@
 <div class="b-e-holder-holder">
     <div class="breath-exercises">
         <a href="{{ url_for('breathing') }}">
-            <span>Box Breathing →</span>
+            Box Breathing →
         </a>
         <a href="{{ url_for('breathing') }}">
-            <span>Deep Breathing →</span>
+            Deep Breathing →
         </a>
         <a href="{{ url_for('breathing') }}">
-            <span>Win Hof Breathing →</span>
-        </a>
-        <a href="{{ url_for('breathing') }}">
-            <div class="notif-frame">
-                <span class="info-text">Appointments & <br> Medication</span>
-                <span class="interact-text">View</span>
-            </div>
-        </a>
-        <a href="{{ url_for('breathing') }}">
-            <div class="notif-frame">
-                <span class="info-text">Daily Check-Ins</span>
-                <span class="interact-text">Start</span>
-            </div>
+            Win Hof Breathing →
         </a>
     </div>
-</div>
-
-<div id = "breath">
-    <button class = 'breathButton'><a href="{{ url_for('box') }}"><p>Box Breathing →</p></a></button>
-</div>
-<br>
-<div id = "breath">
-    <button  class = 'breathButton'><a href="{{ url_for('deep') }}"><p>Deep Breathing</p></a> </button>
-</div>
-<br>
-<div id = "breath">
-    <button class = 'breathButton'><a href="{{ url_for('winHof') }}"><p>Win Hof Method</p></a></button>
 </div>
 {% endblock %}  
