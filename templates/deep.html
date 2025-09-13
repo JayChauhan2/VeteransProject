@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Breathing Exercise{% endblock %}
+
+{% block content %}
+  <h1>Breathing Exercise</h1>
+
+  <p class = "step">{{ text }}</p>
+
+  {% if step_id + 1 < total %}
+    <a href="{{ url_for(request.endpoint, step_id=step_id+1) }}" class="next">Next</a>
+  {% else %}
+  <a href="{{ url_for('breathing') }}"><p class = "completed">You’ve completed the exercise!</p></a>
+  {% endif %}
+{% endblock %}
+
