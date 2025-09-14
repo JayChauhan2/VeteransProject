@@ -104,8 +104,6 @@ nav {
 
 .add-event-holder {
     position: absolute;
-    display: flex;
-    justify-content: center;
     height: 50%;
     width: 100%;
     background-color: white;
@@ -168,6 +166,55 @@ nav {
     
 }
 
+.one-line {
+    display: flex;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+}
+
+.one-line h1 {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.one-line button {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 1em;
+    right: 1em;
+    border-radius: 2em;
+    font-size: 2.2em;
+    width: 1em;
+    height: 1em;
+    padding: 1em;
+    background-color: var(--navbar-color);
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+form label {
+    display: flex;
+    margin: 0.5em;
+    font-size: 2em;
+}
+
+form input {
+    font-size: 2em;
+    width: 6em;
+    border-radius: 0.1em;
+}
+
 .info-text {
     display: flex;
     justify-content: center;
@@ -187,7 +234,7 @@ nav {
     justify-content: center;
     flex: 0.4;
     font-size: 2em;
-    color: white;
+    /* color: white; */
     background-color: var(--navbar-color);
 }
 
