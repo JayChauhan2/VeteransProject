@@ -59,16 +59,74 @@ nav {
 }
 
 
-.notifs-holder-holder, .b-e-holder-holder {
+.cal-notifs-holder-holder, .notifs-holder-holder, .b-e-holder-holder {
     display: flex;
     justify-content: center;
+    margin-bottom: 2em;
 }
 
-.notifs, .breath-exercises {
+.cal-notifs, .notifs, .breath-exercises {
     display: flex;
     flex-direction: column;
     width: 60%;
     height: auto;
+    margin: auto;
+    border: 10px solid black;
+}
+
+@keyframes darken {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+.dark-background {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    /* animation-name: darken; */
+    animation-duration: .5s;
+}
+
+@keyframes move-up {
+    from {
+        height: 0%;
+    }
+    to {
+        height: 50%;
+    }
+}
+
+.add-event-holder {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    height: 50%;
+    width: 100%;
+    background-color: white;
+    border-radius: 5em;
+    bottom: 0;
+    /* animation-name: move-up; */
+    animation-duration: .5s;
+}
+
+
+.calendar-add-holder {
+    text-align: center;
+}
+
+.calendar-add {
+    font-size: 5em;
+    border-radius: 5em;
+    height: 2em;
+    width: 2em;
+    margin-top: 0.2em;
+    background-color: var(--navbar-color);
 }
 
 .breath-exercises a {
@@ -83,7 +141,7 @@ nav {
     height: 3em;
 }
 
-.notifs a, .breath-exercises a  {
+.notifs a, .breath-exercises a, .cal-notifs a {
     margin: 1em;
 }
 
@@ -96,6 +154,18 @@ nav {
     border: 2px solid black;
     width: 100%;
     height: 8em;
+}
+
+.cal-notif {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 3em;
+    border: 2px solid black;
+    width: 100%;
+    height: 8em;
+    
 }
 
 .info-text {
@@ -231,3 +301,4 @@ button {
     justify-content: center;
     align-items: center;
 }
+
