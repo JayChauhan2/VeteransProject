@@ -71,7 +71,6 @@ nav {
     width: 60%;
     height: auto;
     margin: auto;
-    border: 10px solid black;
 }
 
 @keyframes darken {
@@ -89,7 +88,7 @@ nav {
     height: 100%;
     width: 100%;
     top: 0;
-    /* animation-name: darken; */
+    animation-name: darken;
     animation-duration: .5s;
 }
 
@@ -109,7 +108,7 @@ nav {
     background-color: white;
     border-radius: 5em;
     bottom: 0;
-    /* animation-name: move-up; */
+    animation-name: move-up;
     animation-duration: .5s;
 }
 
@@ -209,10 +208,20 @@ form label {
     font-size: 2em;
 }
 
+form div {
+    display: flex;
+}
+
 form input {
     font-size: 2em;
-    width: 6em;
     border-radius: 0.1em;
+    height: 2em;
+    text-align: center;
+    font-family: 'Lucida Grande';
+}
+
+form input[type=color] {
+    width: 3em;
 }
 
 .info-text {

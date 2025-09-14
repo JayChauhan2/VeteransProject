@@ -26,3 +26,11 @@ const usrMsgBox = document.getElementById('msgtobot')
 if (usrMsgBox) {
     
 }
+
+const calendarAdd = document.getElementsByClassName('calendar-add')[0]
+if (calendarAdd) {
+    calendarAdd.onclick = function () {
+        const clone = document.getElementById('createEventBundle').content.cloneNode(true);
+        document.getElementsByTagName('main')[0].appendChild(clone);
+    }
+}
