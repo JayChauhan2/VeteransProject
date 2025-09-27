@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Home{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
-    <!-- FullCalendar CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
     <script defer src="{{url_for('static', filename='script.js')}}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>

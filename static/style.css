@@ -3,6 +3,7 @@
   --title-font-size: 4em;
   --bg-color: #e0f5ff;
   --navbar-color: #9bdcf0;
+  --default-texts: 'Varela' /*Windows*/ , 'Lucida Grande', Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
@@ -20,7 +21,7 @@ h3 {
 
 
 body {
-    font-family: 'Lucida Grande', Helvetica, sans-serif;;
+    font-family: var(--default-texts);
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -276,10 +277,11 @@ textarea {
     width: 75%;
     border-radius: 0.5em;
     font-size: 2em;
-    font-family: 'Lucida Grande';
+    font-family:  var(--default-texts);
     padding: 0.5em;
     border: 2px solid black;
 }
+
 
 .usr-msg-holder button {
     border-radius: 1em;
@@ -300,7 +302,42 @@ textarea {
 }
 
 .msg-zone {
-    background-color: 10px solid black;
+    border: 10px solid green;
+}
+
+.chat-msg-holder {
+    display: flex;
+    align-items: end;
+    border: 10px solid black;
+}
+
+.chat-msg-holder img {
+    display: flex;
+    border: 2px solid green;
+    width: 3em;
+    border-radius: 2em;
+    height: 3em;
+
+}
+
+.chat-msg-holder div {
+    border: 2px solid red;
+    background-color: white;
+    font-size: 2em;
+    border-radius: 0.5em;
+    padding: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-left: 0.2em;
+    max-width: 10em;
+}
+
+.user {
+    flex-direction: row-reverse;
+}
+
+.user div {
+    margin-right: 0.2em;
 }
 
 hr {
