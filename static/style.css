@@ -257,7 +257,7 @@ textarea {
     resize: none;
 }
 
-.usr-msg-holder {
+#usr-msg-holder {
     position: fixed;
     display: flex;
     /* justify-content: space-evenly; */
@@ -272,7 +272,7 @@ textarea {
     margin-bottom: 2em;
 }
 
-.usr-msg-holder textarea {
+#usr-msg-holder textarea {
     height: 100%;
     width: 75%;
     border-radius: 0.5em;
@@ -284,7 +284,7 @@ textarea {
 }
 
 
-.usr-msg-holder button {
+#usr-msg-holder button {
     border-radius: 1em;
     height: 2em;
     width: 2em;
@@ -299,13 +299,23 @@ textarea {
     
 }
 
-.usr-msg-holder button:active {
+#usr-msg-holder button:active {
     background-color: #75a6b5;
 }
 
-.msg-zone {
-    z-index: 2000;
+#msg-zone {
     margin-bottom: 22em;
+}
+
+@keyframes msgAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(2em);
+  }
+  100% {
+    opacity: 1; 
+    transform: translateY(0);
+  }
 }
 
 .chat-msg-holder {
@@ -333,6 +343,14 @@ textarea {
     padding-bottom: 0.5em;
     margin-left: 0.2em;
     max-width: 11em;
+    animation-name: msgAppear;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.chat-msg-holder div:active {
+    background-color: rgb(231, 231, 231);
 }
 
 .user {
