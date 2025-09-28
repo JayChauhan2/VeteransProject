@@ -104,8 +104,9 @@ def getLLMResponse():
             model="llama-3.3-70b-versatile",
             messages=[{
                 "role": "user",
-                "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 500 chars. " + inp
-            }],
+                "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 250 chars, don't repeat your instructions. Don't make your messages repetitive, like don't repeat I'm here to listen and support you. " + inp
+            }
+            ],
             temperature=1,
             max_completion_tokens=1024,
             top_p=1,

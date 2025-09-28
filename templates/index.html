@@ -4,28 +4,40 @@
 
 {% block content %}
 <h1>Welcome {Name}</h1>
+<hr>
+<h3>Get started by selecting an activity below:</h3>
 
-<div class="notifs-holder-holder">
-    <div class="notifs">
+<div class="activities-holder-holder">
+    <div class="activities">
         <a href="{{ url_for('breathing') }}">
-            <div class="notif-frame">
-                <span class="info-text">Breathing<br> Exercises</span>
-                <span class="interact-text">Start</span>
+            <div class="activity-frame breathing">
+                <span class="info-text">Breathing<br> Exercises ></span>
+                <img src="">
             </div>
         </a>
-        <a href="{{ url_for('breathing') }}">
-            <div class="notif-frame">
-                <span class="info-text">Appointments & <br> Medication</span>
-                <span class="interact-text">View</span>
+        <a href="{{ url_for('chat') }}">
+            <div class="activity-frame chat">
+                <span class="info-text">Daily Check-Ins ></span>
             </div>
         </a>
-        <a href="{{ url_for('breathing') }}">
-            <div class="notif-frame">
-                <span class="info-text">Daily Check-Ins</span>
-                <span class="interact-text">Start</span>
+        <a href="{{ url_for('more') }}">
+            <div class="activity-frame resources">
+                <span class="info-text">Resources ></span>
+            </div>
+        </a>
+        <a href="{{url_for('calendar')}}">
+            <div class="notifications">
+                <h3>Today's Notifications</h3>
+                <hr>
+                <p>Doctor's Appointment</p>
+                <p>Notif 2</p>
             </div>
         </a>
     </div>
+</div>
+
+<div id="image-holder">
+    <img src="{{ url_for('static', filename='troop_on_grass.svg') }}">
 </div>
 
 {% endblock %}
