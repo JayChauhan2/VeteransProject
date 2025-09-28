@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Register</h2>
+    <form method="POST">
+        <label>Username:<br>
+            <input type="text" name="username" required>
+        </label><br>
+        <label>Email:<br>
+            <input type="email" name="email" required>
+        </label><br>
+        <label>Password:<br>
+            <input type="password" name="password" required>
+        </label><br>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</div>
+
+<style>
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    text-align: center;
+}
+.auth-container input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.auth-container button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007aff;
+    color: #fff;
+    cursor: pointer;
+}
+.auth-container button:hover { background-color: #005bb5; }
+</style>
+{% endblock %}
