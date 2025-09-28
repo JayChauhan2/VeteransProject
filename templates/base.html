@@ -4,24 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Home{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
-    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
+    <script defer src="{{url_for('static', filename='script.js')}}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <!-- The blank blue top bar -->
-    <nav id="header">
-        <div id="user-info" style="float:right; padding:5px 10px;">
-            {% if 'username' in session %}
-                <span>Logged in as {{ session['username'] }}</span>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Log In</a>
-            {% endif %}
-        </div>
-    </nav>
-    
+
+    <nav id="header"></nav>
+    <div id="container">
+        <div class="particle" style="--start-x: 55vw; --start-y: 79vh; --start-z: 22px; --end-x: 80vw; --end-y: 51vh; --end-z: 9px; --delay: -0.2s; --rotation: 720deg;"></div>
+        <div class="particle" style="--start-x: 4vw; --start-y: 21vh; --start-z: 14px; --end-x: 31vw; --end-y: 35vh; --end-z: 87px; --delay: -0.4s; --rotation: 90deg;"></div>
+        <div class="particle" style="--start-x: 78vw; --start-y: 63vh; --start-z: 52px; --end-x: 4vw; --end-y: 35vh; --end-z: 87px; --delay: -0.6s; --rotation: 0deg;"></div>
+        <div class="particle" style="--start-x: 12vw; --start-y: 88vh; --start-z: 64px; --end-x: 92vw; --end-y: 14vh; --end-z: 38px; --delay: -0.3s;  --rotation: 360deg;"></div>
+        <div class="particle" style="--start-x: 67vw; --start-y: 40vh; --start-z: 5px; --end-x: 10vw; --end-y: 90vh; --end-z: 100px; --delay: -0.7s; --rotation: 180deg;"></div>
+        <div class="particle" style="--start-x: 23vw; --start-y: 5vh; --start-z: 78px; --end-x: 85vw; --end-y: 67vh; --end-z: 10px; --delay: -0.1s;  --rotation: 540deg;"></div>
+        <div class="particle" style="--start-x: 90vw; --start-y: 70vh; --start-z: 20px; --end-x: 5vw; --end-y: 10vh; --end-z: 95px; --delay: -0.5s; --rotation: 1080deg;"></div>
+        <div class="particle" style="--start-x: 38vw; --start-y: 60vh; --start-z: 42px; --end-x: 60vw; --end-y: 5vh; --end-z: 30px; --delay: -0.8s; --rotation: 270deg;"></div>
+    </div>
+
     <div class="content">
         {% block content %}{% endblock %}
     </div>

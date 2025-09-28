@@ -12,14 +12,23 @@
 <div class="b-e-holder-holder">
     <div class="breath-exercises">
         <a href="{{ url_for('box') }}">
-            Box Breathing →
+            <p class="breath-title">Box Breathing →</p>
+            <p class="description">This is a description of the breathing type. Here's what you can learn from it: X, Y, Z.</p>
         </a>
         <a href="{{ url_for('deep') }}">
-            Deep Breathing →
+            <p class="breath-title">Deep Breathing →</p>
+            <p class="description">This is a description of the breathing type. Here's what you can learn from it: X, Y, Z.</p>
         </a>
         <a href="{{ url_for('winHof') }}">
-            Win Hof Breathing →
+            <p class="breath-title">Win Hof Breathing →</p>
+            <p class="description">This is a description of the breathing type. Here's what you can learn from it: X, Y, Z.</p>
         </a>
     </div>
 </div>
+
+
+<div id="image-holder">
+    <img src="{{ url_for('static', filename='person-meditating.png') }}">
+</div>
+
 {% endblock %}  
