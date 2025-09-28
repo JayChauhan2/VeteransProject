@@ -1,10 +1,60 @@
 :root {
-  --navHeight: 5em;
-  --title-font-size: 4em;
-  --bg-color: #f9ffe0; /*#e0f5ff */
-  --navbar-color: #aee3f3;
-  --default-texts: 'Varela' /*Windows*/ , 'Lucida Grande', Helvetica, sans-serif;
+    --navHeight: 5em;
+    --title-font-size: 4em;
+    --bg-color: #f9ffe0; /*#e0f5ff */
+    --navbar-color: #aee3f3;
+    --default-texts: 'Varela' /*Windows*/ , 'Lucida Grande', Helvetica, sans-serif;
 }
+
+#container {
+    position: fixed; /* or absolute if inside a relative parent */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* so it doesn’t interfere with clicks */
+    overflow: visible; /* optional */
+    z-index: -1; /* ensure it stays behind content */
+}
+
+.particle {
+    position: absolute;
+    z-index: -1;
+    background-image: url(/static/us-flag.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    animation: moveParticle 20s infinite;
+    animation-delay: var(--delay);
+    transform: translate3d(var(--start-x), var(--start-y), var(--start-z));
+    pointer-events: none; /* important */
+}
+
+a h2 {
+    text-align: left;
+    padding-left: 1em;
+    font-size: 2em;
+}
+
+.particle.small {
+    width: 6em;
+    height: 6em;
+}
+
+.particle.large {
+    width: 8em;
+    height: 8em;
+}
+
+@keyframes moveParticle {
+    0% {
+        transform: translate3d(var(--start-x), var(--start-y), var(--start-z)) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(var(--end-x), var(--end-y), var(--end-z)) rotate(var(--rotation));
+    }
+}
+
 
 h1, h2, h3, h4, h5 {
     text-align: center;
@@ -234,16 +284,22 @@ nav {
     background-color: var(--navbar-color);
 }
 
+.description {
+    color: #2b2b2b;
+}
+
 .breath-exercises a {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #E0DCFF;
-    border: 1px solid black;
+    flex-direction: column;
+    background-color: #e3e0fb;
     text-align: center;
     border-radius: 1em;
     font-size: 2em;
-    height: 3em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.breath-title {
+    font-size: 1.5em;
 }
 
 /* .interact-text {
@@ -346,6 +402,7 @@ textarea {
     padding-top: 2em;
     padding-bottom: 2em;
     margin-bottom: 2em;
+    padding-left: 1em;
 }
 
 #usr-msg-holder textarea {
@@ -354,8 +411,8 @@ textarea {
     border-radius: 0.5em;
     font-size: 2em;
     font-family:  var(--default-texts);
+    background-color: var(--bg-color);
     padding: 0.5em;
-    border: 2px solid black;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -406,18 +463,20 @@ textarea {
     width: 3em;
     border-radius: 2em;
     height: 3em;
+    margin-left: 1em;
 
 }
 
 .chat-msg-holder div {
-    border: 2px solid darkmagenta;
-    background-color: white;
+    /* border: 2px solid darkmagenta; */
+    background-color: #E6E6FA;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     font-size: 2em;
     border-radius: 0.5em;
     padding: 1em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    margin-left: 0.2em;
+    margin-left: .6em;
     max-width: 11em;
     animation-name: msgAppear;
     animation-duration: 0.4s;
@@ -434,8 +493,12 @@ textarea {
 }
 
 .user div {
-    border: 2px solid darkcyan;
+    background-color: #e6faea;
     margin-right: 0.2em;
+}
+
+.user img {
+    margin-right: 1em;
 }
 
 hr {

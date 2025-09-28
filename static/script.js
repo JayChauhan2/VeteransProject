@@ -49,3 +49,54 @@ if (calendarAdd) {
         document.getElementsByTagName('main')[0].appendChild(clone)
     }
 }
+
+const container = document.getElementById("container");
+const particleCount = 10;
+const edges = ['top', 'right', 'bottom', 'left'];
+
+function getRandomEdgePosition(edge) {
+    switch (edge) {
+        case 'top':
+        return { x: Math.random() * 100 + 'vw', y: '-10vh' }; // just above viewport
+        case 'right':
+        return { x: '110vw', y: Math.random() * 100 + 'vh' }; // just right of viewport
+        case 'bottom':
+        return { x: Math.random() * 100 + 'vw', y: '110vh' }; // just below viewport
+        case 'left':
+        return { x: '-10vw', y: Math.random() * 100 + 'vh' }; // just left of viewport
+    }
+}
+for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    // Random size
+    particle.classList.add(Math.random() > 0.5 ? 'large' : 'small');
+
+    // Pick random start edge
+    let startEdge = edges[Math.floor(Math.random() * edges.length)];
+    
+    // Pick random end edge, different from start
+    let endEdge;
+    do {
+        endEdge = edges[Math.floor(Math.random() * edges.length)];
+    } while (endEdge === startEdge);
+
+    // Get start and end positions offscreen
+    const startPos = getRandomEdgePosition(startEdge);
+    const endPos = getRandomEdgePosition(endEdge);
+
+    // Set CSS variables
+    particle.style.setProperty('--start-x', startPos.x);
+    particle.style.setProperty('--start-y', startPos.y);
+    particle.style.setProperty('--start-z', Math.floor(Math.random() * 100) + 'px');
+
+    particle.style.setProperty('--end-x', endPos.x);
+    particle.style.setProperty('--end-y', endPos.y);
+    particle.style.setProperty('--end-z', Math.floor(Math.random() * 100) + 'px');
+
+    particle.style.setProperty('--rotation', Math.floor(Math.random() * 1080) + 'deg');
+    particle.style.setProperty('--delay', `-${(Math.random()).toFixed(2)}s`);
+
+    container.appendChild(particle);
+}
