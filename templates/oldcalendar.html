@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<h1>My Calendar</h1>
+<hr>
+<h3>Today's Notifications</h3>
+
+
+<div class="cal-notifs-holder-holder">
+    <div class="cal-notifs">
+        <a href="{{ url_for('breathing') }}">
+            <div class="cal-notif">
+                <span class="info-text">Breathing<br> Exercises</span>
+            </div>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="cal-notif">
+                <span class="info-text">Appointments & <br> Medication</span>
+            </div>
+        </a>
+        <a href="{{ url_for('breathing') }}">
+            <div class="cal-notif">
+                <span class="info-text">Daily Check-Ins</span>
+                <span class="interact-text">Start</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<hr>
+<h3>Create an Event</h3>
+<div class="calendar-add-holder">
+  <button class="calendar-add">+</button>
+</div>
+
+<template id="createEventBundle">
+<div class="dark-background">
+  <div class="add-event-holder">
+    <div class="one-line">
+      <h1>Create an Event</h1>
+      <button>X</button>
+    </div>
+    <form class="form">
+      <label for="date">Date:</label>
+      <input type="date" name="date"><br>
+      <label for="time">Time:</label>
+      <input type="time" name="time"><br>
+      <label for="name">Name:</label>
+      <input type="text" name="name"><br>
+      <label for="color">Notification Color:</label>
+      <input type="color" name="color">
+    </form>
+  </div>
+</div>
+</template>
+
+<main>
+  
+</main>
+<!-- 
+<div class="calendar-wrapper">
+  <div id="calendar"></div>
+</div>
+
+<div id="NotifsText">
+  <p id="Today">Today</p>
+  <p id="Activities"># Activities</p>
+</div>
+
+<button class="calendar-plus-btn" aria-label="Add to calendar">
+  <span>+</span>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var selectedCell = null;
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: '100%',
+      aspectRatio: 1.5,
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'today'
+      },
+      buttonText: {
+        today: 'Today'
+      },
+      dateClick: function (info) {
+        // Remove highlight from previous selection
+        if (selectedCell) {
+          selectedCell.classList.remove('selected-day');
+        }
+        // Find the clicked cell and highlight it
+        selectedCell = info.dayEl;
+        selectedCell.classList.add('selected-day');
+        console.log('Selected date:', info.dateStr);
+      }
+    });
+    calendar.render();
+  });
+</script> -->
+
+{% endblock %}

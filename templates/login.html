@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+        <label>Username: <input type="text" name="username" required></label><br>
+        <label>Password: <input type="password" name="password" required></label><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <p>Or <a href="{{ url_for('register') }}">Register a new account</a></p>
+
+    <hr>
+
+    <a href="{{ url_for('guest_login') }}">
+        <button type="button">Continue without account</button>
+    </a>
+</div>
+
+<style>
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.login-container input {
+    width: 80%;
+    padding: 5px;
+    margin: 5px 0;
+}
+button {
+    padding: 8px 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007aff;
+    color: #fff;
+    cursor: pointer;
+}
+button:hover { background-color: #005bb5; }
+</style>
+{% endblock %}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events for {{ date }}</title>
+</head>
+<body>
+    <h2>Events for {{ date }}</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                <strong>{{ event[4] }}</strong>  <!-- title -->
+                {% if event[2] and event[3] %}
+                    ({{ event[2] }} - {{ event[3] }})
+                {% endif %}
+                <br>
+                {{ event[5] }}  <!-- details -->
+                <br>
+                Location: {{ event[6] }}
+                <br>
+                <a href="{{ url_for('delete_event', id=event[0]) }}">Delete</a>
+            </li>
+        {% else %}
+            <li>No events for this day.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Add Event Button -->
+    <button onclick="openAddEvent()">+ Add Event</button>
+
+    <!-- Event Form Modal -->
+    <div id="addEventModal" style="display:none; position:fixed; top:20%; left:30%; background:#fff; border:1px solid #ccc; padding:20px;">
+        <form method="POST" action="{{ url_for('add_event', date=date) }}">
+            <label>Title: <input type="text" name="title" required></label><br>
+            <label>Start Time: <input type="time" name="start_time"></label><br>
+            <label>End Time: <input type="time" name="end_time"></label><br>
+            <label>Details: <textarea name="details"></textarea></label><br>
+            <label>Location: <input type="text" name="location"></label><br>
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeAddEvent()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function openAddEvent() {
+            document.getElementById('addEventModal').style.display = 'block';
+        }
+        function closeAddEvent() {
+            document.getElementById('addEventModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

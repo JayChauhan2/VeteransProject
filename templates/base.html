@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Home{% endblock %}</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
@@ -12,6 +13,7 @@
 </head>
 
 <body>
+
 
     <nav id="header"></nav>
     <div id="container">
@@ -25,7 +27,6 @@
         <div class="particle" style="--start-x: 38vw; --start-y: 60vh; --start-z: 42px; --end-x: 60vw; --end-y: 5vh; --end-z: 30px; --delay: -0.8s; --rotation: 270deg;"></div>
     </div>
 
-
     <div class="content">
         {% block content %}{% endblock %}
     </div>
@@ -34,7 +35,7 @@
     <nav id="bottombar">
         <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='Home.png') }}"></a>
         <a href="{{ url_for('chat') }}"><img src="{{ url_for('static', filename='Messages.png') }}"></a>
-        <a href="{{ url_for('calendar') }}" id="cal"><img src="{{ url_for('static', filename='Calendar.png') }}"></a>
+        <a href="{{ url_for('show_calendar_redirect') }}" id="cal"><img src="{{ url_for('static', filename='Calendar.png') }}"></a>
         <a href="{{ url_for('more') }}"><img src="{{ url_for('static', filename='more.png') }}"></a>
     </nav>
 </body>
