@@ -154,6 +154,7 @@ def login():
         
         if user and check_password_hash(user[1], password):
             session['user_id'] = user[0]
+            session['username'] = username
             session['is_admin'] = user[2]
             session.pop('guest', None)
             return redirect(url_for('index'))

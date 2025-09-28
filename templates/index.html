@@ -3,7 +3,14 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-<h1>Welcome {Name}</h1>
+
+{% if 'username' in session %}
+    
+    <h1>Welcome {{session['username']}}</h1>
+{% else %}
+    <h1>Welcome Guest</h1>
+{% endif %}
+
 <hr>
 <h3>Get started by selecting an activity below:</h3>
 
@@ -25,7 +32,7 @@
                 <span class="info-text">Resources ></span>
             </div>
         </a>
-        <a href="{{url_for('calendar')}}">
+        <a href="{{url_for('show_calendar_redirect')}}">
             <div class="notifications">
                 <h3>Today's Notifications</h3>
                 <hr>

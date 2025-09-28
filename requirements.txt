@@ -1,3 +1,4 @@
 Flask
 groq
 python-dotenv
+psycopg2
