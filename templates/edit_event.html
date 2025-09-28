@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+
+    <!-- Login / Logout Links -->
+    <div class="auth-links">
+        {% if 'user_id' in session %}
+            Logged in
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div id="editEventModal" class="modal">
+        <form id="editEventForm" method="POST" class="modal-form">
+            <label>Title: <input type="text" name="title" value="{{ event.title }}" required></label>
+
+            <div class="time-select-container">
+                <label>Start Time:</label>
+                <select name="start_hour">
+                    {% for h in range(0,24) %}
+                        <option value="{{'%02d' % h}}" {% if event.start_hour == h %}selected{% endif %}>{{'%02d' % h}}</option>
+                    {% endfor %}
+                </select> :
+                <select name="start_minute">
+                    {% for m in range(0,60,5) %}
+                        <option value="{{'%02d' % m}}" {% if event.start_minute == m %}selected{% endif %}>{{'%02d' % m}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="time-select-container">
+                <label>End Time:</label>
+                <select name="end_hour">
+                    {% for h in range(0,24) %}
+                        <option value="{{'%02d' % h}}" {% if event.end_hour == h %}selected{% endif %}>{{'%02d' % h}}</option>
+                    {% endfor %}
+                </select> :
+                <select name="end_minute">
+                    {% for m in range(0,60,5) %}
+                        <option value="{{'%02d' % m}}" {% if event.end_minute == m %}selected{% endif %}>{{'%02d' % m}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <label>Details: <textarea name="details">{{ event.details }}</textarea></label>
+            <label>Location: <input type="text" name="location" value="{{ event.location }}"></label>
+            <label><input type="checkbox" name="is_public" value="true" {% if event.is_public %}checked{% endif %}> Make event public</label>
+
+            <div class="modal-buttons">
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="closeEditEvent()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<style>
+.page-container { display:flex; flex-direction:column; height:100vh; }
+.auth-links { text-align:right; margin:5px 10px; }
+.calendar-container { flex:0 0 45%; overflow-y:auto; padding:5px; }
+.calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+.weekday { text-align:center; font-weight:600; }
+.day a { display:flex; justify-content:center; align-items:center; aspect-ratio:1; border-radius:50%; text-decoration:none; color:#000; font-weight:500; }
+.day.today a { background:#007aff; color:#fff; }
+.day.other-month a { color:#ccc; }
+.day a.selected { border:2px solid #007aff; }
+.modal { display:block; position:fixed; top:20%; left:10%; width:80%; max-width:400px; background:#fff; border:1px solid #ccc; padding:20px; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.2); border-radius:12px; }
+.modal-form label { display:block; margin:8px 0; }
+.time-select-container { display:flex; align-items:center; gap:5px; margin:5px 0; }
+.modal-buttons { display:flex; justify-content:flex-end; gap:10px; margin-top:10px; }
+button { padding:5px 10px; margin:3px; border:none; border-radius:8px; background:#007aff; color:#fff; cursor:pointer; }
+button:hover { background:#005bb5; }
+</style>
+
+<script>
+function goToMonth(month, year) {
+    window.location.href = `/show_calendar/${year}/${month}/`;
+}
+function closeEditEvent() {
+    document.getElementById('editEventModal').style.display = 'none';
+}
+</script>
+{% endblock %}

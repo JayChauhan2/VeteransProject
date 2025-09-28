@@ -5,14 +5,22 @@
     <meta charset="UTF-8">
     <title>{% block title %}Home{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
-    <!-- FullCalendar CSS -->
-    <script defer src="{{url_for('static', filename='script.js')}}"></script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
     <!-- The blank blue top bar -->
-    <nav id="header"></nav>
+    <nav id="header">
+        <div id="user-info" style="float:right; padding:5px 10px;">
+            {% if 'username' in session %}
+                <span>Logged in as {{ session['username'] }}</span>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Log In</a>
+            {% endif %}
+        </div>
+    </nav>
     
     <div class="content">
         {% block content %}{% endblock %}
@@ -22,7 +30,7 @@
     <nav id="bottombar">
         <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='Home.png') }}"></a>
         <a href="{{ url_for('chat') }}"><img src="{{ url_for('static', filename='Messages.png') }}"></a>
-        <a href="{{ url_for('calendar') }}" id="cal"><img src="{{ url_for('static', filename='Calendar.png') }}"></a>
+        <a href="{{ url_for('show_calendar_redirect') }}" id="cal"><img src="{{ url_for('static', filename='Calendar.png') }}"></a>
         <a href="{{ url_for('more') }}"><img src="{{ url_for('static', filename='more.png') }}"></a>
     </nav>
 </body>
