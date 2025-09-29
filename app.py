@@ -80,9 +80,9 @@ def box(step_id=0):
     return render_template('box.html', text=text, step_id=step_id, steps=steps, total=total)
 
 
-@app.route('/winHof/')
-@app.route('/winHof/<int:step_id>')
-def winHof(step_id=0):
+@app.route('/wimHof/')
+@app.route('/wimHof/<int:step_id>')
+def wimHof(step_id=0):
     steps = [
         'Start by sitting or lying down in a comfortable, quiet place where you won’t be disturbed.',
         'Inhale deeply through your nose, expanding your belly as you breathe in. '
@@ -92,7 +92,7 @@ def winHof(step_id=0):
         'Inhale deeply and hold your breath for about 15 seconds before exhaling. This completes one round.'
     ]
     text, total = build_steps(steps, step_id)
-    return render_template('winHof.html', text=text, step_id=step_id, steps=steps, total=total)
+    return render_template('wimHof.html', text=text, step_id=step_id, steps=steps, total=total)
 
 
 # -------------------- LLM Chat -------------------- #
