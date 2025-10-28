@@ -47,62 +47,64 @@
         {% if 'user_id' in session %}
             <button class="add-event" onclick="openAddEvent('{{ day_to_show }}')">+ Add Event</button>
         {% endif %}
-
-        <ul class="event-list">
-            {% if events %}
-                {% for event in events %}
-                    <li>
-                        <strong>{{ event[1] }}</strong>
-                        {% if event[2] and event[3] %}
-                            ({{ event[2] }} - {{ event[3] }})
-                        {% endif %}
-                        <br>{{ event[4] }}
-                        <br>Location: {{ event[5] }}
-                        <br>
-                        {% if 'user_id' in session and (event[6]==session['user_id'] or session['is_admin']) %}
-                            <form method="POST" action="{{ url_for('delete_event', id=event[0]) }}" class="inline-form">
-                                <button type="submit" class="delete-btn">Delete</button>
-                            </form>
-                            <a href="{{ url_for('edit_event', event_id=event[0]) }}">
-                                <button type="button">Edit</button>
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            {% else %}
-                <li>No events for this day.</li>
-            {% endif %}
-        </ul>
+        
+        <div class="notifications">
+        {% if events %}
+            {% for event in events %}
+                <p>
+                    {{event[1]}}, 
+                    {% if event[2] and event[3] %}
+                        ({{ event[2] }} - {{ event[3] }}),
+                    {% endif %}
+                    {{event[4]}},
+                    Location: {{ event[5] }}
+                </p>
+                {% if 'user_id' in session and (event[6]==session['user_id'] or session['is_admin']) %}
+                    <form method="POST" action="{{ url_for('delete_event', id=event[0]) }}" class="inline-form">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                    <a href="{{ url_for('edit_event', event_id=event[0]) }}">
+                        <button type="button" class="edit-btn">Edit</button>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+        
 
         <!-- Add Event Modal -->
         {% if 'user_id' in session %}
-        <div id="addEventModal" class="modal">
-            <form id="addEventForm" method="POST" class="modal-form">
-                <label>Title: <input type="text" name="title" required></label>
-                
-                <div class="time-select-container">
-                    <label>Start Time:</label>
-                    <select name="start_hour">{% for h in range(0,24) %}<option value="{{'%02d' % h}}">{{'%02d' % h}}</option>{% endfor %}</select>
-                    :
-                    <select name="start_minute">{% for m in range(0,60,5) %}<option value="{{'%02d' % m}}">{{'%02d' % m}}</option>{% endfor %}</select>
-                </div>
+        <div class="modalHolder">
+            <div id="addEventModal" class="modal">
+                <form id="addEventForm" method="POST" class="modal-form">
+                    <h2>Add an Event</h2>
+                    <label>Title: <input type="text" name="title" required></label>
+                    <div class="time-select-container">
+                        <label>Start:</label>
+                        <select name="start_hour">{% for h in range(0,24) %}<option value="{{'%02d' % h}}">{{'%02d' % h}}</option>{% endfor %}</select>
+                        :
+                        <select name="start_minute">{% for m in range(0,60,5) %}<option value="{{'%02d' % m}}">{{'%02d' % m}}</option>{% endfor %}</select>
+                    </div>
 
-                <div class="time-select-container">
-                    <label>End Time:</label>
-                    <select name="end_hour">{% for h in range(0,24) %}<option value="{{'%02d' % h}}">{{'%02d' % h}}</option>{% endfor %}</select>
-                    :
-                    <select name="end_minute">{% for m in range(0,60,5) %}<option value="{{'%02d' % m}}">{{'%02d' % m}}</option>{% endfor %}</select>
-                </div>
+                    <div class="time-select-container">
+                        <label>Final:</label>
+                        <select name="end_hour">{% for h in range(0,24) %}<option value="{{'%02d' % h}}">{{'%02d' % h}}</option>{% endfor %}</select>
+                        :
+                        <select name="end_minute">{% for m in range(0,60,5) %}<option value="{{'%02d' % m}}">{{'%02d' % m}}</option>{% endfor %}</select>
+                    </div>
 
-                <label>Details: <textarea name="details"></textarea></label>
-                <label>Location: <input type="text" name="location"></label>
-                <label><input type="checkbox" name="is_public" value="true"> Make event public</label>
-
-                <div class="modal-buttons">
-                    <button type="submit">Save</button>
-                    <button type="button" onclick="closeAddEvent()">Cancel</button>
-                </div>
-            </form>
+                    <label>Specs: <input name="details"></label>
+                    <label>Venue: <input type="text" name="location"></label>
+                    <label>Make event public<input type="checkbox" name="is_public" value="true"></label>
+                    
+                    <div class="buttons-holder-holder">
+                        <div class="modal-buttons">
+                            <button id="cancel" type="button" onclick="closeAddEvent()">Cancel</button>
+                            <button type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         {% endif %}
     </div>

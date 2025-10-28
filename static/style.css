@@ -366,10 +366,12 @@ nav {
     margin: auto;
 }
 
+
+
 form label {
     display: flex;
     margin: 0.5em;
-    font-size: 2em;
+    font-size: 1.23em;
 }
 
 form div {
@@ -604,7 +606,11 @@ button {
 }
 
 .calendar-container { flex: 0 0 45%; overflow-y: auto; padding: 5px; margin-bottom: 2em; }
-.events-container { flex: 0 0 55%; overflow-y: auto; padding: 10px; }
+.events-container {
+    flex: 0 0 55%; 
+    overflow-y: auto; 
+    padding: 10px; 
+}
 .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
 .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
 
@@ -624,23 +630,169 @@ button {
 li {
     font-size: 1.7em;
 }
+.weekday {
+  text-align: center;
+  font-weight: 600;
+}
 
-.weekday { text-align: center; font-weight: 600; }
-.day a { display: flex; justify-content: center; align-items: center; aspect-ratio:1; border-radius:50%; text-decoration:none; color:#000; font-weight:500; }
-.day.today a { background:#007aff; color:#fff; }
-.day.other-month a { color:#ccc; }
-.day a.selected { border:2px solid #007aff; }
-.event-list { list-style:none; padding:0; margin:0; }
-.inline-form { display:inline; margin-right:5px; }
-button { padding:5px 10px; margin:3px; border:none; border-radius:8px; background:#007aff; color:#fff; cursor:pointer; }
-button:hover { background:#005bb5; }
-.delete-btn { background:none; border:none; color:red; cursor:pointer; }
-.modal { font-size: 2em;display:none; position:fixed; top:20%; left:10%; width:80%; background:#fff; border:1px solid #ccc; padding:20px; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.2); border-radius:12px; }
-.modal-form label { display:block; margin:8px 0; }
-.time-select-container { display:flex; align-items:center; gap:5px; margin:5px 0; }
-.modal-buttons { display:flex; justify-content:flex-end; gap:10px; margin-top:10px; }
+.day a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.day.today a {
+  background: #007aff;
+  color: #fff;
+}
+
+.day.other-month a {
+  color: #ccc;
+}
+
+.day a.selected {
+  border: 2px solid #007aff;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inline-form {
+  display: inline;
+  margin-right: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  margin: 3px;
+  border: none;
+  border-radius: 8px;
+  background: #007aff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #005bb5;
+}
+
+.delete-btn, .edit-btn { 
+    background:none; 
+    border:none; 
+    color:red; 
+    cursor:pointer; 
+    font-size: 2em;
+    padding: 0.4em;
+}
+
+.edit-btn {
+    color: white;
+    background-color: #007aff;
+    border-radius: 0.6em;
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+
+.modal { 
+    left: 0;
+    font-size: 2em;
+    display:none; 
+    position:fixed; 
+    background-color: white;
+    border:1px solid #ccc; 
+    padding:1em; 
+    z-index:100; 
+    box-shadow:0 4px 12px rgba(0,0,0,0.2); 
+    border-radius:12px; 
+    animation-name: fade-in;
+    animation-duration: .15s;
+    bottom: 0;
+}
+
+
+ul li {
+    font-size: 2em;
+}
+
+.modal-buttons { 
+    display:flex; 
+    justify-content:space-evenly; 
+    gap:10px; 
+    margin-top:10px;
+    width: 80%;
+}
+
+.modal-buttons button {
+    font-size: 1.4em;
+    padding: 0.4em;
+    border-radius: 2em;
+    width: 5em;
+    text-align: center;
+}
+
+label input, select {
+    border: none;
+    background-color: var(--bg-color);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+select {
+    margin-left: 0.5em;
+}
 
 label input {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    font-family: var(--default-texts);
+    margin-left: 0.2em;
+    height: 0.8em;
+}
+
+select {
+    width: 2em;
+}
+
+
+input[type=checkbox] {
+    height: 1.6em;
+    box-shadow: none;
+}
+
+select {
+    font-size: 1.6em;
+}
+
+#cancel {
+    background-color: white;
+    color: #007aff;
+    border: 4px solid #007aff;
+}
+
+.buttons-holder-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-select-container { 
+    display:flex; 
+    align-items:center; 
+    gap:5px; 
+    margin:5px 0; 
 }
