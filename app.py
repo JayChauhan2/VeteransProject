@@ -1,5 +1,6 @@
 import os
 import secrets
+import ollama
 from groq import Groq
 from flask import Flask, render_template, request, url_for, redirect, jsonify, session
 from dotenv import load_dotenv
@@ -98,25 +99,33 @@ def wimHof(step_id=0):
 # -------------------- LLM Chat -------------------- #
 @app.route("/getLLMResponse", methods=["POST"])
 def getLLMResponse():
-    try:
-        inp = request.json["message"]
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{
-                "role": "user",
-                "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 250 chars, don't repeat your instructions. Don't make your messages repetitive, like don't repeat I'm here to listen and support you. " + inp
-            }
-            ],
-            temperature=1,
-            max_completion_tokens=1024,
-            top_p=1,
-            stream=False,
-            stop=None
-        )
-        return jsonify({"response": completion.choices[0].message.content})
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"error": "Unable to load summary"}), 500
+    # try:
+    #     inp = request.json["message"]
+    #     completion = client.chat.completions.create(
+    #         model="llama-3.3-70b-versatile",
+    #         messages=[{
+    #             "role": "user",
+    #             "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 250 chars, don't repeat your instructions. Don't make your messages repetitive, like don't repeat I'm here to listen and support you. " + inp
+    #         }
+    #         ],
+    #         temperature=1,
+    #         max_completion_tokens=1024,
+    #         top_p=1,
+    #         stream=False,
+    #         stop=None
+    #     )
+    #     return jsonify({"response": completion.choices[0].message.content})
+    # except Exception as e:
+    #     traceback.print_exc()
+    #     return jsonify({"error": "Unable to load summary"}), 500
+    inp = request.json["message"]
+    response = ollama.chat(
+        model='html-model',
+        messages=[
+            {'role': 'user', 'content': inp}
+        ]
+    )
+    return jsonify({"response": response['message']['content']})
 
 # -------------------- Authentication -------------------- #
 @app.route('/register', methods=['GET', 'POST'])

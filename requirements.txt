@@ -2,3 +2,4 @@ Flask
 groq
 python-dotenv
 psycopg2-binary
+ollama
