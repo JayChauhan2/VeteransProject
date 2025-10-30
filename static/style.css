@@ -699,100 +699,141 @@ button:hover {
     border-radius: 0.6em;
 }
 
+/* === Modal Backdrop === */
 
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 100%;
-    }
-}
-
-
-.modal { 
-    left: 0;
-    font-size: 2em;
-    display:none; 
-    position:fixed; 
-    background-color: white;
-    border:1px solid #ccc; 
-    padding:1em; 
-    z-index:100; 
-    box-shadow:0 4px 12px rgba(0,0,0,0.2); 
-    border-radius:12px; 
-    animation-name: fade-in;
-    animation-duration: .15s;
-    bottom: 0;
-}
-
-
-ul li {
-    font-size: 2em;
-}
-
-.modal-buttons { 
-    display:flex; 
-    justify-content:space-evenly; 
-    gap:10px; 
-    margin-top:10px;
-    width: 80%;
-}
-
-.modal-buttons button {
-    font-size: 1.4em;
-    padding: 0.4em;
-    border-radius: 2em;
-    width: 5em;
-    text-align: center;
-}
-
-label input, select {
-    border: none;
-    background-color: var(--bg-color);
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-select {
-    margin-left: 0.5em;
-}
-
-label input {
-    width: 100%;
+  /* === MODAL STYLING (improved only) === */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95); /* start slightly smaller */
+    z-index: 1000;
+    background: #ffffff;
+    color: #222;
+    border-radius: 1.2rem;
+    width: min(600px, 90%); /* bigger width */
+    padding: 3rem;           /* more padding for content */
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
     font-family: var(--default-texts);
-    margin-left: 0.2em;
-    height: 0.8em;
+    animation: fade-in 0.25s ease;
 }
 
-select {
-    width: 2em;
-}
-
-
-input[type=checkbox] {
-    height: 1.6em;
-    box-shadow: none;
-}
-
-select {
-    font-size: 1.6em;
-}
-
-#cancel {
-    background-color: white;
+  
+  /* Modal heading */
+  .modal h2 {
+    font-size: 2.2em;
+    text-align: center;
+    margin-bottom: 1.5em;
     color: #007aff;
-    border: 4px solid #007aff;
+    font-weight: 700;
 }
+  
+  /* Form layout */
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  
+  /* Label + input pairing */
+  .modal-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.05em;
+    font-weight: 500;
+    color: #333;
+  }
 
-.buttons-holder-holder {
+  .modal-form input[type="text"],
+  .modal-form input[name="details"],
+  .modal-form input[name="location"],
+  .modal-form select {
+      padding: 0.9em 1.2em;
+      font-size: 1.1em;
+      border-radius: 0.7em;
+  }
+  
+  .modal-form input:focus,
+  .modal-form select:focus {
+    outline: none;
+    border-color: #007aff;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+  }
+  
+  /* Checkbox alignment */
+  .modal-form input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+    border: 2px solid #007aff;
+    border-radius: 0.3em;
+    margin-left: 0.6em;
+    cursor: pointer;
+    accent-color: #007aff;
+  }
+  
+  /* Time select containers */
+  .time-select-container {
     display: flex;
     align-items: center;
+    gap: 0.6em;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .time-select-container select {
+    font-size: 1em;
+    padding: 0.4em 0.5em;
+    border-radius: 0.4em;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+  }
+  
+  .time-select-container select:focus {
+    border-color: #007aff;
+  }
+  
+  /* Buttons area */
+  .modal-buttons {
+    display: flex;
     justify-content: center;
+    gap: 1.2em;
+    margin-top: 1.8em;
+  }
+  .modal-buttons button {
+    font-size: 1.3em;
+    padding: 0.8em 2em;
+    border-radius: 2em;
 }
-
-.time-select-container { 
-    display:flex; 
-    align-items:center; 
-    gap:5px; 
-    margin:5px 0; 
-}
+  
+  /* Primary Save button */
+  .modal-buttons button[type="submit"] {
+    background-color: #007aff;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 122, 255, 0.3);
+  }
+  
+  .modal-buttons button[type="submit"]:hover {
+    background-color: #005bb5;
+    box-shadow: 0 3px 8px rgba(0, 91, 181, 0.4);
+  }
+  
+  /* Cancel button */
+  #cancel {
+    background-color: transparent;
+    border: 2px solid #007aff;
+    color: #007aff;
+  }
+  
+  #cancel:hover {
+    background-color: #007aff;
+    color: white;
+  }
+  
+  /* Optional subtle animations */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  

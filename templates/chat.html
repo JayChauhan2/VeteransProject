@@ -9,14 +9,14 @@
 
 <template id="msg">
     <div class="chat-msg-holder">
-        <img src="x.png">
+        <img src="{{ url_for('static', filename='Normalperson.png') }}">
         <div class="chat-msg-text">Hi this is my text</div>
     </div>
 </template>
 
 <div id="msg-zone">
     <div class="chat-msg-holder">
-        <img src="x.png">
+        <img src="{{ url_for('static', filename='AItherapist.png') }}">
         <div class="chat-msg-text">How are you feeling today?</div>
     </div>
 </div>
