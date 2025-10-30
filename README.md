@@ -1,2 +1,1 @@
-# Veterans Project
-## Stuff
+# TroopCompanion
