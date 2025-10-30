@@ -4,7 +4,7 @@
 <div class="page-container">
 
     <!-- Login / Logout Links -->
-    <div class="auth-links">
+    <!-- <div class="auth-links">
         {% if 'user_id' in session %}
             Logged in
             <a href="{{ url_for('logout') }}">Logout</a>
@@ -12,7 +12,7 @@
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
         {% endif %}
-    </div>
+    </div> -->
 
     <!-- Calendar -->
     <div class="calendar-container">
@@ -57,21 +57,11 @@
             </p>
             <button type="submit" class="delete-btn">Delete</button>
             <button type="button" class="edit-btn">Edit</button>
-            <p>
-                Take dog for walk,
-                5PM - 6PM,
-                (Remember to meet Emma!), @
-                Twin Hickory Park.
-            </p>
-            <button type="submit" class="delete-btn">Delete</button>
-            <button type="button" class="edit-btn">Edit</button>
-        {% if events %}
+            {% if events %}
             {% for event in events %}
                 <p>
-                    {{event[1]}}, 
-                    {% if event[2] and event[3] %}
-                        ({{ event[2] }} - {{ event[3] }}),
-                    {% endif %}
+                    {{event[1]}},
+                        4:35PM-4:40PM,
                     {% if event[4] %}
                     ({{event[4]}}),
                     {% endif %}
@@ -87,6 +77,15 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+            <p>
+                Daily walk,
+                5PM - 6PM,
+                (Remember to see Dorothy!), @
+                Twin Hickory Park.
+            </p>
+            <button type="submit" class="delete-btn">Delete</button>
+            <button type="button" class="edit-btn">Edit</button>
+        
         </div>
         
 

@@ -37,6 +37,8 @@ if (usrMsgHolder) {
 
         const botClone = msgTemplate.content.cloneNode(true)
         botClone.querySelector('div').querySelector('div').innerText = await createLLMResponse(usrMsg)
+        
+        botClone.querySelector('div').querySelector('img').src = "/static/AItherapist.png"
         msgZone.appendChild(botClone)
     
     })

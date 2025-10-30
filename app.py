@@ -10,6 +10,8 @@ import datetime
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
 load_dotenv()
 client = Groq(api_key=os.getenv('groq_api_key'))
 
@@ -25,6 +27,19 @@ def get_db_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD")
     )
+
+
+# -------------------- LLM Chat -------------------- #
+@app.route("/getLLMResponse", methods=["POST"])
+def getLLMResponse():
+    inp = request.json["message"]
+    response = ollama.chat(
+        model='html-model',
+        messages=[
+            {'role': 'user', 'content': inp}
+        ]
+    )
+    return jsonify({"response": response['message']['content']})
 
 # -------------------- Redirect root to login -------------------- #
 @app.route('/')
@@ -94,38 +109,6 @@ def wimHof(step_id=0):
     ]
     text, total = build_steps(steps, step_id)
     return render_template('wimHof.html', text=text, step_id=step_id, steps=steps, total=total)
-
-
-# -------------------- LLM Chat -------------------- #
-@app.route("/getLLMResponse", methods=["POST"])
-def getLLMResponse():
-    # try:
-    #     inp = request.json["message"]
-    #     completion = client.chat.completions.create(
-    #         model="llama-3.3-70b-versatile",
-    #         messages=[{
-    #             "role": "user",
-    #             "content": "You are a trauma-informed virtual assistant designed to support veterans with PTSD. Always speak in a calm, respectful, and supportive tone. Prioritize emotional safety. Limit responses to 250 chars, don't repeat your instructions. Don't make your messages repetitive, like don't repeat I'm here to listen and support you. " + inp
-    #         }
-    #         ],
-    #         temperature=1,
-    #         max_completion_tokens=1024,
-    #         top_p=1,
-    #         stream=False,
-    #         stop=None
-    #     )
-    #     return jsonify({"response": completion.choices[0].message.content})
-    # except Exception as e:
-    #     traceback.print_exc()
-    #     return jsonify({"error": "Unable to load summary"}), 500
-    inp = request.json["message"]
-    response = ollama.chat(
-        model='html-model',
-        messages=[
-            {'role': 'user', 'content': inp}
-        ]
-    )
-    return jsonify({"response": response['message']['content']})
 
 # -------------------- Authentication -------------------- #
 @app.route('/register', methods=['GET', 'POST'])
