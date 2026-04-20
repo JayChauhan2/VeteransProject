@@ -165,6 +165,63 @@ struct HeaderView: View {
     }
 }
 
+struct ReminderSettingsModal: View {
+    @Environment(\.dismiss) var dismiss
+    @State private var selectedInterval: String = "1 Hour before"
+    let intervals = ["At time of event", "5 Minutes before", "15 Minutes before", "30 Minutes before", "1 Hour before", "1 Day before"]
+    let theme: NeoTheme
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                List(intervals, id: \.self) { interval in
+                    Button(action: {
+                        selectedInterval = interval
+                    }) {
+                        HStack {
+                            Text(interval)
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(.black)
+                            Spacer()
+                            if selectedInterval == interval {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 16, weight: .bold))
+                            }
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+                .listStyle(PlainListStyle())
+                
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("SET DEMO REMINDER")
+                        .font(.system(size: 18, weight: .black))
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .padding()
+            }
+            .navigationTitle("Reminders")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.black)
+                }
+            }
+        }
+    }
+}
+
 enum TileSize {
     case small, medium, large
 }
@@ -229,6 +286,8 @@ struct BentoTile: View {
 
 struct NotificationTile: View {
     let theme: NeoTheme
+    @State private var rotationAngle: Double = 0
+    @State private var showReminderSettings = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -237,6 +296,12 @@ struct NotificationTile: View {
                     .font(.system(size: 16, weight: .black))
                 Spacer()
                 Image(systemName: "bell.fill")
+                    .font(.system(size: 20))
+                    // Rotate from the top to look like a bell swinging
+                    .rotationEffect(.degrees(rotationAngle), anchor: .top)
+                    .onTapGesture {
+                        openSettings()
+                    }
             }
             
             Divider().background(theme.accentColor).frame(height: 2)
@@ -249,6 +314,27 @@ struct NotificationTile: View {
         .foregroundColor(theme.textColor)
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
+        // Hook up the new interactive sheet
+        .sheet(isPresented: $showReminderSettings, onDismiss: {
+            // When the modal is dismissed (e.g. setting changed), return to normal smoothly!
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                rotationAngle = 0
+            }
+        }) {
+            ReminderSettingsModal(theme: theme)
+                .presentationDetents([.medium, .large])
+        }
+    }
+    
+    // Snappy transition directly to crooked state
+    private func openSettings() {
+        // Animate simply and quickly to the crooked pose
+        withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) { 
+            rotationAngle = 20 
+        } 
+        
+        // Pop the modal immediately
+        showReminderSettings = true
     }
 }
 
