@@ -35,13 +35,7 @@ struct ContentView: View {
                         // Bento Grid
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
-                                NavigationLink(destination: VStack {
-                                    Text("Breathing Exercises")
-                                        .font(.largeTitle)
-                                        .fontWeight(.black)
-                                        .padding(.top, 60)
-                                    Spacer()
-                                }) {
+                                NavigationLink(destination: BreathingExercisesListView(theme: currentTheme)) {
                                     CustomBreathingTile(theme: currentTheme)
                                 }
                                 .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[0], shadowColor: currentTheme.accentColor))
