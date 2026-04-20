@@ -60,13 +60,7 @@ struct ContentView: View {
                             }
                             
                             // Resources — image left, label right, no category list
-                            NavigationLink(destination: VStack {
-                                    Text("Resources")
-                                        .font(.largeTitle)
-                                        .fontWeight(.black)
-                                        .padding(.top, 60)
-                                    Spacer()
-                                }) {
+                            NavigationLink(destination: ResourcesView(theme: currentTheme)) {
                                 HStack(spacing: 0) {
                                     // Image fills left ~55% of tile
                                     BentoTile(title: "", icon: "books.vertical.fill", theme: currentTheme, tileIndex: 2, size: .medium, showArrow: false, forceDarkText: true, imageName: "resources_veteran", imageScale: 0.7, imageOffset: 45)
