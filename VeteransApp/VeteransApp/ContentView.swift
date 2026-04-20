@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UserNotifications
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -84,7 +85,7 @@ struct ContentView: View {
                             
                             // Notifications Section
                             NavigationLink(destination: Text("Today's Schedule")) {
-                                NotificationTile(theme: currentTheme)
+                                NotificationTile(theme: currentTheme, items: items)
                             }
                             .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[3], shadowColor: currentTheme.accentColor))
                         }
@@ -167,7 +168,7 @@ struct HeaderView: View {
 
 struct ReminderSettingsModal: View {
     @Environment(\.dismiss) var dismiss
-    @State private var selectedInterval: String = "1 Hour before"
+    @AppStorage("reminderOffsetString") private var selectedInterval: String = "5 Minutes before"
     let intervals = ["At time of event", "5 Minutes before", "15 Minutes before", "30 Minutes before", "1 Hour before", "1 Day before"]
     let theme: NeoTheme
     
@@ -197,7 +198,7 @@ struct ReminderSettingsModal: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Text("SET DEMO REMINDER")
+                    Text("SET REMINDER")
                         .font(.system(size: 18, weight: .black))
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -286,8 +287,10 @@ struct BentoTile: View {
 
 struct NotificationTile: View {
     let theme: NeoTheme
+    var items: [Item]
     @State private var rotationAngle: Double = 0
     @State private var showReminderSettings = false
+    @State private var showAddEvent = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -295,6 +298,16 @@ struct NotificationTile: View {
                 Text("TODAY'S NOTIFICATIONS")
                     .font(.system(size: 16, weight: .black))
                 Spacer()
+                
+                // Add Event Button
+                Button(action: {
+                    showAddEvent = true
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 20))
+                }
+                .padding(.trailing, 8)
+                
                 Image(systemName: "bell.fill")
                     .font(.system(size: 20))
                     // Rotate from the top to look like a bell swinging
@@ -307,13 +320,25 @@ struct NotificationTile: View {
             Divider().background(theme.accentColor).frame(height: 2)
             
             VStack(alignment: .leading, spacing: 14) {
-                NotificationItem(time: "3PM - 4PM", location: "Local hospital", title: "Doctor's Appointment", message: "")
-                NotificationItem(time: "5PM - 6PM", location: "Twin Hickory Park", title: "Daily Walk", message: "Remember to see Dorothy!")
+                if items.isEmpty {
+                    Text("No events scheduled. Tap + to add one!")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(.black.opacity(0.5))
+                        .padding(.vertical, 8)
+                } else {
+                    ForEach(items.prefix(3)) { item in
+                        NotificationItem(time: item.timestamp.formatted(date: .omitted, time: .shortened), location: item.location, title: item.title, message: item.message)
+                    }
+                }
             }
         }
         .foregroundColor(theme.textColor)
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .sheet(isPresented: $showAddEvent) {
+            AddEventModal()
+                .presentationDetents([.large])
+        }
         // Hook up the new interactive sheet
         .sheet(isPresented: $showReminderSettings, onDismiss: {
             // When the modal is dismissed (e.g. setting changed), return to normal smoothly!
@@ -408,5 +433,168 @@ struct HorizontalFlagBanner: View {
         }
         .frame(height: flagSize + 16)
         .allowsHitTesting(false)
+    }
+}
+import Foundation
+import UserNotifications
+
+class NotificationManager {
+    static let shared = NotificationManager()
+    
+    private init() {}
+    
+    /// Requests permissions for alerts, sounds, and badges if not already requested
+    func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            DispatchQueue.main.async {
+                completion(granted, error)
+            }
+        }
+    }
+    
+    /// Schedules a local notification at a specific date, minus the offset.
+    func scheduleNotification(for item: Item, offsetSeconds: Double) {
+        let center = UNUserNotificationCenter.current()
+        
+        let content = UNMutableNotificationContent()
+        content.title = item.title
+        content.body = item.message.isEmpty ? "You have an event coming up." : item.message
+        content.sound = .default
+        
+        // Calculate the actual trigger date
+        let triggerDate = item.timestamp.addingTimeInterval(-offsetSeconds)
+        
+        // Only schedule if the trigger time is in the future
+        guard triggerDate > Date() else { return }
+        
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: triggerDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Use the event ID to keep it identifiable and replaceable if needed
+        let identifier = item.id.uuidString
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        
+        center.add(request) { error in
+            if let error = error {
+                print("Failed to schedule local notification: \(error.localizedDescription)")
+            } else {
+                print("Successfully scheduled notification '\(item.title)' for \(triggerDate)")
+            }
+        }
+    }
+    
+    /// Calculate offset in seconds from the string preference
+    static func parseOffset(from string: String) -> Double {
+        switch string {
+        case "At time of event": return 0
+        case "5 Minutes before": return 5 * 60
+        case "15 Minutes before": return 15 * 60
+        case "30 Minutes before": return 30 * 60
+        case "1 Hour before": return 60 * 60
+        case "1 Day before": return 24 * 60 * 60
+        default: return 5 * 60
+        }
+    }
+}
+import SwiftUI
+import SwiftData
+
+struct AddEventModal: View {
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
+    
+    @State private var title: String = ""
+    @State private var message: String = ""
+    @State private var location: String = ""
+    @State private var date: Date = Date()
+    @State private var showError: Bool = false
+    
+    // Grabbing the global user preference to schedule the notification!
+    @AppStorage("reminderOffsetString") private var reminderOffsetString: String = "5 Minutes before"
+    
+    var body: some View {
+        // Pre-shuffled list of common veteran-specific event context suggestions
+        let suggestions = ["VA Checkup", "Physical Therapy", "VFW Meetup", "Morning Run", "Call Battle Buddy", "Therapy Session", "Paperwork"].shuffled()
+        
+        NavigationStack {
+            Form {
+                Section(header: Text("Event Details")) {
+                    TextField("Title", text: $title)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(suggestions.prefix(4), id: \.self) { suggestion in
+                                Button(action: {
+                                    title = suggestion
+                                }) {
+                                    Text(suggestion)
+                                        .font(.system(size: 13, weight: .bold))
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 6)
+                                        .background(Color.black.opacity(0.1))
+                                        .foregroundColor(.black)
+                                        .cornerRadius(8)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.bottom, 4)
+                    
+                    TextField("Message (Optional)", text: $message)
+                    TextField("Location (Optional)", text: $location)
+                }
+                
+                Section(header: Text("Time")) {
+                    DatePicker("Date & Time", selection: $date)
+                }
+            }
+            .navigationTitle("New Event")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundColor(.black)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    let isTitleEmpty = title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                    
+                    Button("Save") {
+                        if isTitleEmpty {
+                            showError = true
+                        } else {
+                            saveEvent()
+                            dismiss()
+                        }
+                    }
+                    .fontWeight(.bold)
+                    // Visually looks disabled (gray) but stays tappable to trigger the alert pop-up
+                    .foregroundColor(isTitleEmpty ? Color.gray : .black)
+                }
+            }
+            .alert("Missing Title", isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Please enter a title to save this event.")
+            }
+        }
+    }
+    
+    private func saveEvent() {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let finalTitle = trimmedTitle.isEmpty ? "New Event" : trimmedTitle
+        
+        let newItem = Item(timestamp: date, title: finalTitle, message: message, location: location)
+        
+        // Save to Database
+        modelContext.insert(newItem)
+        
+        // Schedule push notification locally checking permissions first natively!
+        NotificationManager.shared.requestAuthorization { granted, _ in
+            if granted {
+                let offset = NotificationManager.parseOffset(from: reminderOffsetString)
+                NotificationManager.shared.scheduleNotification(for: newItem, offsetSeconds: offset)
+            }
+        }
     }
 }
