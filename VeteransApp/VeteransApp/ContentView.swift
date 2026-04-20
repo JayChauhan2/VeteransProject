@@ -4,9 +4,7 @@ import UserNotifications
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-    
-    // Theme State - Set to requested custom colors
+    @Query(sort: \Item.timestamp, order: .reverse) private var items: [Item]
     @State private var currentTheme: NeoTheme = NeoTheme(
         name: "CustomRequested",
         backgroundColor: Color(red: 190/255, green: 228/255, blue: 255/255), // Lighter tint of the old Medal blue, but notably more blue
@@ -84,10 +82,11 @@ struct ContentView: View {
                             .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[2], shadowColor: currentTheme.accentColor))
                             
                             // Notifications Section
-                            NavigationLink(destination: Text("Today's Schedule")) {
+                            VStack {
                                 NotificationTile(theme: currentTheme, items: items)
                             }
-                            .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[3], shadowColor: currentTheme.accentColor))
+                            .neobrutal(backgroundColor: currentTheme.tileColors[3], shadowColor: currentTheme.accentColor)
+
                         }
                     }
                     .padding(16)
@@ -288,6 +287,8 @@ struct BentoTile: View {
 struct NotificationTile: View {
     let theme: NeoTheme
     var items: [Item]
+    @Environment(\.modelContext) private var modelContext
+
     @State private var rotationAngle: Double = 0
     @State private var showReminderSettings = false
     @State private var showAddEvent = false
@@ -326,9 +327,26 @@ struct NotificationTile: View {
                         .foregroundColor(.black.opacity(0.5))
                         .padding(.vertical, 8)
                 } else {
-                    ForEach(items.prefix(3)) { item in
-                        NotificationItem(time: item.timestamp.formatted(date: .omitted, time: .shortened), location: item.location, title: item.title, message: item.message)
+                    List {
+                        ForEach(items) { item in
+                            let isPast = item.timestamp < Date().addingTimeInterval(-60)
+                            NotificationItem(time: item.timestamp.formatted(date: .omitted, time: .shortened), location: item.location, title: item.title, message: item.message, isPast: isPast)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: 0))
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        modelContext.delete(item)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                        }
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .scrollIndicators(.visible)
+                    .frame(height: 250)
                 }
             }
         }
@@ -368,6 +386,7 @@ struct NotificationItem: View {
     let location: String
     let title: String
     let message: String
+    var isPast: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -394,6 +413,7 @@ struct NotificationItem: View {
                     .foregroundColor(.black)
             }
         }
+        .opacity(isPast ? 0.4 : 1.0)
     }
 }
 
