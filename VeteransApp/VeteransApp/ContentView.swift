@@ -40,13 +40,7 @@ struct ContentView: View {
                                 }
                                 .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[0], shadowColor: currentTheme.accentColor))
                                 
-                                NavigationLink(destination: VStack {
-                                    Text("Daily Check-ins")
-                                        .font(.largeTitle)
-                                        .fontWeight(.black)
-                                        .padding(.top, 60)
-                                    Spacer()
-                                }) {
+                                NavigationLink(destination: ChatView(theme: currentTheme)) {
                                     BentoTile(title: "Daily\nCheck-ins", icon: "bubble.left.and.bubble.right.fill", theme: currentTheme, tileIndex: 1, size: .medium, imageName: "checkin_veteran", imageOffset: 28)
                                 }
                                 .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[1], shadowColor: currentTheme.accentColor))
