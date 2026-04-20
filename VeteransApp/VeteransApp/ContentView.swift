@@ -5,8 +5,19 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     
-    // Theme State - Set to 'Medal' style (Index 8)
-    @State private var currentTheme: NeoTheme = ThemeManager.themes[8]
+    // Theme State - Set to requested custom colors
+    @State private var currentTheme: NeoTheme = NeoTheme(
+        name: "CustomRequested",
+        backgroundColor: Color(red: 190/255, green: 228/255, blue: 255/255), // Lighter tint of the old Medal blue, but notably more blue
+        tileColors: [
+            Color(red: 233/255, green: 234/255, blue: 249/255), // [0] Breathing (#e9eaf9)
+            Color(red: 216/255, green: 249/255, blue: 216/255), // [1] Daily Check-ins (#d8f9d8)
+            Color(red: 255/255, green: 237/255, blue: 237/255), // [2] Resources (#ffeded)
+            Color(red: 250/255, green: 255/255, blue: 228/255)  // [3] Notifications (#faffe4)
+        ],
+        accentColor: .black,
+        textColor: .black
+    )
 
     var body: some View {
         NavigationStack {
@@ -25,70 +36,119 @@ struct ContentView: View {
                         // Bento Grid
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
-                                NavigationLink(destination: Text("Breathing Exercises")) {
-                                    BentoTile(title: "Breathing\nExercises", icon: "wind", theme: currentTheme, tileIndex: 0, size: .small)
+                                NavigationLink(destination: VStack {
+                                    Text("Breathing Exercises")
+                                        .font(.largeTitle)
+                                        .fontWeight(.black)
+                                        .padding(.top, 60)
+                                    Spacer()
+                                }) {
+                                    CustomBreathingTile(theme: currentTheme)
                                 }
                                 .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[0], shadowColor: currentTheme.accentColor))
                                 
-                                NavigationLink(destination: Text("Daily Check-ins")) {
-                                    BentoTile(title: "Daily\nCheck-ins", icon: "bubble.left.and.bubble.right.fill", theme: currentTheme, tileIndex: 1, size: .medium)
+                                NavigationLink(destination: VStack {
+                                    Text("Daily Check-ins")
+                                        .font(.largeTitle)
+                                        .fontWeight(.black)
+                                        .padding(.top, 60)
+                                    Spacer()
+                                }) {
+                                    BentoTile(title: "Daily\nCheck-ins", icon: "bubble.left.and.bubble.right.fill", theme: currentTheme, tileIndex: 1, size: .medium, imageName: "checkin_veteran", imageOffset: 28)
                                 }
                                 .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[1], shadowColor: currentTheme.accentColor))
                             }
                             
-                            VStack(spacing: 16) {
-                                NavigationLink(destination: Text("Resources")) {
-                                    ZStack(alignment: .topTrailing) {
-                                        HStack {
-                                            // White BentoTile for maximum readability
-                                            BentoTile(title: "Resources", icon: "books.vertical.fill", theme: currentTheme, tileIndex: 2, size: .medium, showArrow: false, forceDarkText: true)
-                                            
-                                            Spacer()
-                                            
-                                            VStack(alignment: .trailing, spacing: 8) {
-                                                Text("Medical Benefits")
-                                                Text("Housing Support")
-                                                Text("Peer Community")
-                                            }
-                                            .font(.system(size: 15, weight: .bold))
-                                            .foregroundColor(.black)
-                                            .padding(.trailing, 20)
-                                        }
-                                        
+                            // Resources — image left, label right, no category list
+                            NavigationLink(destination: VStack {
+                                    Text("Resources")
+                                        .font(.largeTitle)
+                                        .fontWeight(.black)
+                                        .padding(.top, 60)
+                                    Spacer()
+                                }) {
+                                HStack(spacing: 0) {
+                                    // Image fills left ~55% of tile
+                                    BentoTile(title: "", icon: "books.vertical.fill", theme: currentTheme, tileIndex: 2, size: .medium, showArrow: false, forceDarkText: true, imageName: "resources_veteran", imageScale: 0.7, imageOffset: 45)
+                                        .frame(maxWidth: .infinity)
+                                    
+                                    // Arrow at top, RESOURCES text at bottom — consistent with other tiles
+                                    VStack(alignment: .trailing, spacing: 6) {
                                         Image(systemName: "arrow.up.right")
                                             .font(.system(size: 14, weight: .bold))
                                             .foregroundColor(.black)
-                                            .padding(16)
+                                        Spacer()
+                                        Text("RESOURCES")
+                                            .font(.system(size: 16, weight: .black))
+                                            .foregroundColor(.black)
                                     }
+                                    .padding(.trailing, 16)
+                                    .padding(.vertical, 12)
                                 }
-                                // White background = guaranteed readability regardless of theme
-                                .buttonStyle(NeoButtonStyle(backgroundColor: .white, shadowColor: currentTheme.accentColor))
                             }
+                            .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[2], shadowColor: currentTheme.accentColor))
                             
                             // Notifications Section
                             NavigationLink(destination: Text("Today's Schedule")) {
                                 NotificationTile(theme: currentTheme)
                             }
-                            .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[0], shadowColor: currentTheme.accentColor))
+                            .buttonStyle(NeoButtonStyle(backgroundColor: currentTheme.tileColors[3], shadowColor: currentTheme.accentColor))
                         }
                     }
                     .padding(16)
                 }
                 
-                // 3. Flag Parade — LAST in ZStack = always on top of everything
-                FlagParadeView()
-                    .ignoresSafeArea()
-                    .allowsHitTesting(false)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("TroopCompanion")
-                        .font(.system(size: 20, weight: .black, design: .monospaced))
-                        .foregroundColor(currentTheme.textColor)
+            .navigationBarHidden(true)
+        }
+        .onAppear {
+            UIScrollView.appearance().delaysContentTouches = false
+        }
+    }
+}
+
+struct CustomBreathingTile: View {
+    let theme: NeoTheme
+    
+    var body: some View {
+        ZStack {
+            // Background is guaranteed to be solid
+            theme.tileColors[0]
+            
+            // Image placed at the bottom, slightly shifted so it doesn't overlap the arrow
+            VStack {
+                Spacer()
+                if let uiImage = UIImage(named: "breathing_exercise") {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 110)
+                        .offset(x: -10, y: 15)
                 }
             }
+            
+            // Text and Arrow at the Top
+            VStack {
+                HStack(alignment: .top) {
+                    Text("BREATHING\nEXERCISES")
+                        .font(.system(size: 16, weight: .black))
+                        .foregroundColor(theme.textColor)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "arrow.up.right")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                        .padding(.top, 2)
+                }
+                Spacer()
+            }
+            .padding(12)
         }
+        .frame(maxWidth: .infinity)
+        .frame(height: 140)
+        .clipped()
     }
 }
 
@@ -103,7 +163,7 @@ struct HeaderView: View {
             Text("WELCOME BACK,")
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(theme.textColor.opacity(0.7))
-            Text(name.uppercased())
+            Text(name) // Proper capitalization - first letter up, rest lowercase
                 .font(.system(size: 42, weight: .black))
                 .foregroundColor(theme.textColor)
         }
@@ -122,28 +182,54 @@ struct BentoTile: View {
     let tileIndex: Int
     let size: TileSize
     var showArrow: Bool = true
-    var forceDarkText: Bool = false // Forces black text for readability on light backgrounds
+    var forceDarkText: Bool = false
+    var imageName: String? = nil
+    var imageScale: CGFloat = 1.0     // Scale the image inside the tile
+    var imageOffset: CGFloat = 0      // Push image down inside the tile
     
+    var textColor: Color { forceDarkText ? .black : theme.textColor }
+
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.system(size: 24, weight: .bold))
+        ZStack(alignment: .bottomLeading) {
+            // Image fills the tile but never enters the bottom label zone
+            if let imageName = imageName, let uiImage = UIImage(named: imageName) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .scaleEffect(imageScale)
+                    .offset(y: imageOffset)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, 36) // Reserve the label strip — image never bleeds into it
+                    .clipped()
+                    .mask(
+                        LinearGradient(
+                            colors: [.black, .black, .clear],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+            }
+
+            // Label — always sits at the bottom, guaranteed visible
+            HStack(alignment: .center) {
+                Text(title.uppercased())
+                    .font(.system(size: 16, weight: .black))
+                    .foregroundColor(textColor)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
                 Spacer()
                 if showArrow {
                     Image(systemName: "arrow.up.right")
                         .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(textColor)
                 }
             }
-            Spacer()
-            Text(title.uppercased())
-                .font(.system(size: 18, weight: .black))
-                .multilineTextAlignment(.leading)
+            .padding(12)
         }
-        .foregroundColor(forceDarkText ? .black : theme.textColor)
-        .padding(16)
         .frame(maxWidth: .infinity)
         .frame(height: 140)
+        .clipped()
     }
 }
 
@@ -180,22 +266,25 @@ struct NotificationItem: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
+            HStack(spacing: 5) {
                 Text(time)
                     .font(.system(size: 14, weight: .bold))
-                Text("•")
+                    .foregroundColor(.black.opacity(0.4)) // Lighter time text
+                Image(systemName: "mappin.and.ellipse") // Map marker instead of bullet
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.black.opacity(0.4))
                 Text(location)
-                    .font(.system(size: 14, weight: .bold)) // Bolder location
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.black.opacity(0.4))
             }
-            .foregroundColor(.black) // Fixed high contrast
             
             Text(title)
-                .font(.system(size: 19, weight: .black)) // Slightly larger title
+                .font(.system(size: 19, weight: .black))
                 .foregroundColor(.black)
             
             if !message.isEmpty {
                 Text("(\(message))")
-                    .font(.system(size: 15, weight: .bold)) // Bolder sub-message
+                    .font(.system(size: 15, weight: .bold))
                     .italic()
                     .foregroundColor(.black)
             }
@@ -209,49 +298,35 @@ struct NotificationItem: View {
         .modelContainer(for: Item.self, inMemory: true)
 }
 
-// MARK: - Patriotic Flag Parade (Dignified Crawl)
+// MARK: - Horizontal Flag Banner (scrolls left → right below notifications)
 
-struct FlagParadeView: View {
-    let flagCount = 10
-    let duration: Double = 20.0 // Total seconds for one full loop
-    
+struct HorizontalFlagBanner: View {
+    let flagCount = 12
+    let duration: Double = 8.0 // seconds for one full pass
+    let flagSpacing: CGFloat = 62  // Wider spacing for bigger flags
+    let flagSize: CGFloat = 52     // Bigger flags
+
     var body: some View {
         GeometryReader { geo in
             TimelineView(.animation) { timeline in
                 let elapsed = timeline.date.timeIntervalSinceReferenceDate
-                let progress = CGFloat((elapsed.truncatingRemainder(dividingBy: duration)) / duration)
-                
-                ZStack {
-                    ForEach(0..<flagCount, id: \.self) { i in
-                        StandardFlag(index: i, total: flagCount, bounds: geo.size, progress: progress)
+                // rawOffset goes 0 → flagSpacing, then loops (conveyor belt)
+                let rawOffset = CGFloat(elapsed.truncatingRemainder(dividingBy: duration) / duration) * flagSpacing
+
+                Canvas { context, size in
+                    let totalFlags = Int(ceil(size.width / flagSpacing)) + 2
+                    for i in 0..<totalFlags {
+                        let x = CGFloat(i) * flagSpacing + rawOffset - flagSpacing
+                        let y = size.height / 2
+                        context.draw(
+                            Text("🇺🇸").font(.system(size: flagSize)),
+                            at: CGPoint(x: x, y: y)
+                        )
                     }
                 }
             }
         }
-        .ignoresSafeArea()
+        .frame(height: flagSize + 16)
         .allowsHitTesting(false)
-    }
-}
-
-struct StandardFlag: View {
-    let index: Int
-    let total: Int
-    let bounds: CGSize
-    let progress: CGFloat
-    
-    var body: some View {
-        let startX = bounds.width * 0.5
-        let startY: CGFloat = -60
-        let endX = bounds.width + 300
-        let endY = bounds.height * 0.5
-        
-        let itemProgress = (CGFloat(index) / CGFloat(total) + progress).truncatingRemainder(dividingBy: 1.0)
-        
-        let x = startX + (endX - startX) * itemProgress
-        let y = startY + (endY - startY) * itemProgress
-        
-        Text("🇺🇸")
-            .font(.system(size: 65))
-            .position(x: x, y: y)
     }
 }

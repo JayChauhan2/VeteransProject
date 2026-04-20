@@ -26,7 +26,7 @@ struct NeobrutalismModifier: ViewModifier {
                 .offset(x: isPressed ? shadowOffset * 0.8 : 0, 
                         y: isPressed ? shadowOffset * 0.8 : 0)
         }
-        .animation(.spring(response: 0.2, dampingFraction: 0.5), value: isPressed)
+        .animation(.spring(response: 0.1, dampingFraction: 0.6), value: isPressed)
     }
 }
 
