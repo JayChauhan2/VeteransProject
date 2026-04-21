@@ -26,6 +26,8 @@ struct ContentView: View {
                 // 1. Background color (bottom)
                 currentTheme.backgroundColor.ignoresSafeArea()
                 
+                FloatingFlagsBackground()
+                
                 // 2. Scrollable content (middle)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
@@ -479,6 +481,59 @@ struct HorizontalFlagBanner: View {
         }
         .frame(height: flagSize + 16)
         .allowsHitTesting(false)
+    }
+}
+
+// MARK: - Floating serene particle background
+struct FloatingFlagsBackground: View {
+    struct FlagParticle {
+        var xOffset: CGFloat
+        var speed: CGFloat
+        var scale: CGFloat
+        var opacity: Double
+    }
+    
+    // Generate 15 pre-seeded particles
+    let flags: [FlagParticle] = (0..<15).map { _ in
+        FlagParticle(
+            xOffset: CGFloat.random(in: 0...1000),
+            speed: CGFloat.random(in: 15...45), // Pixels per second drifting UP
+            scale: CGFloat.random(in: 1.0...2.5), // "decently big"
+            opacity: Double.random(in: 0.05...0.15) // Extremely serene and translucent
+        )
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            TimelineView(.animation) { timeline in
+                let now = timeline.date.timeIntervalSinceReferenceDate
+                
+                Canvas { context, size in
+                    for flag in flags {
+                        // Distribute across the screen width natively
+                        let xBase = flag.xOffset.truncatingRemainder(dividingBy: size.width)
+                        
+                        // Calculate vertical drift
+                        let totalDistance = CGFloat(now) * flag.speed
+                        // Start slightly below the screen (+100) and travel up until slightly above (-100)
+                        let limit = size.height + 200
+                        let yOffset = totalDistance.truncatingRemainder(dividingBy: limit)
+                        let y = (size.height + 100) - yOffset
+                        
+                        // Add an ultra-smooth sway back and forth
+                        let sway = CGFloat(sin(now * 0.4 + Double(flag.xOffset))) * 40
+                        
+                        context.opacity = flag.opacity
+                        
+                        // Draw natively inside canvas without state-changing memory leaks
+                        let flagText = Text("🇺🇸").font(.system(size: 60 * flag.scale))
+                        context.draw(flagText, at: CGPoint(x: xBase + sway, y: y))
+                    }
+                }
+            }
+        }
+        .allowsHitTesting(false) // Particles must never block physical user touches
+        .ignoresSafeArea()
     }
 }
 import Foundation
