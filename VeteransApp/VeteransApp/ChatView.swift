@@ -68,12 +68,12 @@ struct ChatView: View {
                         .padding(.vertical, 20)
                         .padding(.horizontal, 16)
                     }
-                    .onChange(of: messages.count) { _ in
+                    .onChange(of: messages.count) {
                         withAnimation {
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
                     }
-                    .onChange(of: isTyping) { _ in
+                    .onChange(of: isTyping) {
                         if isTyping {
                             withAnimation { proxy.scrollTo("typing", anchor: .bottom) }
                         }

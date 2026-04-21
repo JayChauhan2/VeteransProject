@@ -78,7 +78,7 @@ struct ContentView: View {
                                 NotificationTile(theme: currentTheme, items: items)
                             }
                             .neobrutal(backgroundColor: currentTheme.tileColors[3], shadowColor: currentTheme.accentColor)
-
+                            
                         }
                     }
                     .padding(16)
@@ -316,6 +316,7 @@ struct NotificationTile: View {
     let theme: NeoTheme
     var items: [Item]
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var router: NotificationRouter
 
     @State private var rotationAngle: Double = 0
     @State private var showReminderSettings = false
@@ -355,26 +356,46 @@ struct NotificationTile: View {
                         .foregroundColor(.black.opacity(0.5))
                         .padding(.vertical, 8)
                 } else {
-                    List {
-                        ForEach(items) { item in
-                            let isPast = item.timestamp < Date().addingTimeInterval(-60)
-                            NotificationItem(time: item.timestamp.formatted(date: .omitted, time: .shortened), location: item.location, title: item.title, message: item.message, isPast: isPast)
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: 0))
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        modelContext.delete(item)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
+                    ScrollViewReader { proxy in
+                        List {
+                            ForEach(items) { item in
+                                let isPast = item.timestamp < Date().addingTimeInterval(-60)
+                                let isHighlighted = (router.tappedEventId == item.id.uuidString)
+                                
+                                NotificationItem(time: item.timestamp.formatted(date: .omitted, time: .shortened), location: item.location, title: item.title, message: item.message, isPast: isPast, isHighlighted: isHighlighted)
+                                    .id(item.id.uuidString)
+                                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: 0))
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            modelContext.delete(item)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                            }
+                        }
+                        .listStyle(.plain)
+                        .scrollContentBackground(.hidden)
+                        .scrollIndicators(.visible)
+                        .frame(height: 250)
+                        .onChange(of: router.tappedEventId) { newId in
+                            if let newId = newId {
+                                withAnimation {
+                                    proxy.scrollTo(newId, anchor: .center)
+                                }
+                                // Reset after a short delay so the highlight fades
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                    if router.tappedEventId == newId {
+                                        withAnimation(.easeInOut(duration: 0.5)) {
+                                            router.tappedEventId = nil
+                                        }
                                     }
                                 }
+                            }
                         }
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-                    .scrollIndicators(.visible)
-                    .frame(height: 250)
                 }
             }
         }
@@ -415,6 +436,7 @@ struct NotificationItem: View {
     let title: String
     let message: String
     var isPast: Bool = false
+    var isHighlighted: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -441,7 +463,13 @@ struct NotificationItem: View {
                     .foregroundColor(.black)
             }
         }
+        .padding(isHighlighted ? 12 : 0)
+        .background(isHighlighted ? Color.yellow.opacity(0.3) : Color.clear)
+        .cornerRadius(8)
+        .scaleEffect(isHighlighted ? 1.05 : 1.0)
         .opacity(isPast ? 0.4 : 1.0)
+        // Add a smooth animation for when the highlight state changes
+        .animation(.easeInOut(duration: 0.3), value: isHighlighted)
     }
 }
 

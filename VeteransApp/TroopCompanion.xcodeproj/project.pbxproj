@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		8468CFDC2F952320000A681B /* VeteransApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VeteransApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8468CFDC2F952320000A681B /* TroopCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TroopCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,7 +40,7 @@
 		8468CFDD2F952320000A681B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8468CFDC2F952320000A681B /* VeteransApp.app */,
+				8468CFDC2F952320000A681B /* TroopCompanion.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8468CFDB2F952320000A681B /* VeteransApp */ = {
+		8468CFDB2F952320000A681B /* TroopCompanion */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8468CFE92F952320000A681B /* Build configuration list for PBXNativeTarget "VeteransApp" */;
+			buildConfigurationList = 8468CFE92F952320000A681B /* Build configuration list for PBXNativeTarget "TroopCompanion" */;
 			buildPhases = (
 				8468CFD82F952320000A681B /* Sources */,
 				8468CFD92F952320000A681B /* Frameworks */,
@@ -63,11 +63,11 @@
 			fileSystemSynchronizedGroups = (
 				8468CFDE2F952320000A681B /* VeteransApp */,
 			);
-			name = VeteransApp;
+			name = TroopCompanion;
 			packageProductDependencies = (
 			);
 			productName = VeteransApp;
-			productReference = 8468CFDC2F952320000A681B /* VeteransApp.app */;
+			productReference = 8468CFDC2F952320000A681B /* TroopCompanion.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8468CFD72F952320000A681B /* Build configuration list for PBXProject "VeteransApp" */;
+			buildConfigurationList = 8468CFD72F952320000A681B /* Build configuration list for PBXProject "TroopCompanion" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8468CFDB2F952320000A681B /* VeteransApp */,
+				8468CFDB2F952320000A681B /* TroopCompanion */,
 			);
 		};
 /* End PBXProject section */
@@ -313,7 +313,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8468CFD72F952320000A681B /* Build configuration list for PBXProject "VeteransApp" */ = {
+		8468CFD72F952320000A681B /* Build configuration list for PBXProject "TroopCompanion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8468CFE72F952320000A681B /* Debug */,
@@ -322,7 +322,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8468CFE92F952320000A681B /* Build configuration list for PBXNativeTarget "VeteransApp" */ = {
+		8468CFE92F952320000A681B /* Build configuration list for PBXNativeTarget "TroopCompanion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8468CFEA2F952320000A681B /* Debug */,
