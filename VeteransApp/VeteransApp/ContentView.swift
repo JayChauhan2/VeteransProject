@@ -1,4 +1,5 @@
 import SwiftUI
+import MapKit
 import SwiftData
 import UserNotifications
 
@@ -553,6 +554,7 @@ struct AddEventModal: View {
     @State private var location: String = ""
     @State private var date: Date = Date()
     @State private var showError: Bool = false
+    @State private var showMap: Bool = false
     
     // Grabbing the global user preference to schedule the notification!
     @AppStorage("reminderOffsetString") private var reminderOffsetString: String = "5 Minutes before"
@@ -586,7 +588,15 @@ struct AddEventModal: View {
                     .padding(.bottom, 4)
                     
                     TextField("Message (Optional)", text: $message)
-                    TextField("Location (Optional)", text: $location)
+                    HStack {
+                        TextField("Location (Optional)", text: $location)
+                        Button(action: {
+                            showMap = true
+                        }) {
+                            Image(systemName: "map.fill")
+                                .foregroundColor(.black)
+                        }
+                    }
                 }
                 
                 Section(header: Text("Time")) {
@@ -622,6 +632,9 @@ struct AddEventModal: View {
             } message: {
                 Text("Please enter a title to save this event.")
             }
+            .sheet(isPresented: $showMap) {
+                MapSelectionView(locationName: $location)
+            }
         }
     }
     
@@ -639,6 +652,111 @@ struct AddEventModal: View {
             if granted {
                 let offset = NotificationManager.parseOffset(from: reminderOffsetString)
                 NotificationManager.shared.scheduleNotification(for: newItem, offsetSeconds: offset)
+            }
+        }
+    }
+}
+
+// MARK: - Experimental Map Selection
+struct MapSelectionView: View {
+    @Binding var locationName: String
+    @Environment(\.dismiss) var dismiss
+    
+    // Default to the geographic center of the US as a fallback
+    @State private var position: MapCameraPosition = .camera(
+        MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795), distance: 2000000)
+    )
+    
+    @State private var selectedCoordinate = CLLocationCoordinate2D(latitude: 39.8283, longitude: -98.5795)
+    @State private var address: String = "Drag map to select location..."
+    
+    var body: some View {
+        NavigationStack {
+            ZStack(alignment: .center) {
+                Map(position: $position)
+                    .onMapCameraChange(frequency: .onEnd) { context in
+                        selectedCoordinate = context.camera.centerCoordinate
+                        reverseGeocode(coordinate: selectedCoordinate)
+                    }
+                
+                // Static center pin directly in the overlay
+                Image(systemName: "mappin.circle.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.red)
+                    .shadow(radius: 2)
+                    .offset(y: -20)
+            }
+            .overlay(alignment: .bottom) {
+                VStack(spacing: 12) {
+                    Text(address)
+                        .font(.system(size: 14, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white.opacity(0.95))
+                        .cornerRadius(12)
+                        .shadow(radius: 4)
+                        .padding(.horizontal)
+                    
+                    Button(action: {
+                        locationName = address
+                        dismiss()
+                    }) {
+                        Text("Confirm Location")
+                            .font(.system(size: 18, weight: .black))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 32)
+                }
+            }
+            .navigationTitle("Select Location")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundColor(.black)
+                }
+            }
+            .onAppear {
+                if !locationName.isEmpty {
+                    geocode(addressString: locationName)
+                }
+            }
+        }
+    }
+    
+    private func reverseGeocode(coordinate: CLLocationCoordinate2D) {
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let placemark = placemarks?.first {
+                var addressString = ""
+                if let name = placemark.name { addressString += name }
+                if let locality = placemark.locality { addressString += ", \(locality)" }
+                
+                if addressString.isEmpty {
+                    self.address = "Lat: \(String(format: "%.4f", coordinate.latitude)), Lon: \(String(format: "%.4f", coordinate.longitude))"
+                } else {
+                    self.address = addressString
+                }
+            } else {
+                self.address = "Lat: \(String(format: "%.4f", coordinate.latitude)), Lon: \(String(format: "%.4f", coordinate.longitude))"
+            }
+        }
+    }
+    
+    private func geocode(addressString: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { placemarks, error in
+            if let placemark = placemarks?.first, let location = placemark.location {
+                position = .camera(MapCamera(centerCoordinate: location.coordinate, distance: 5000))
             }
         }
     }
