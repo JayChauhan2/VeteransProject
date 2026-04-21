@@ -5,6 +5,7 @@ import UserNotifications
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Item.timestamp, order: .reverse) private var items: [Item]
+    @AppStorage("hasSeededInitialData") private var hasSeeded = false
     @State private var currentTheme: NeoTheme = NeoTheme(
         name: "CustomRequested",
         backgroundColor: Color(red: 190/255, green: 228/255, blue: 255/255), // Lighter tint of the old Medal blue, but notably more blue
@@ -85,7 +86,43 @@ struct ContentView: View {
         }
         .onAppear {
             UIScrollView.appearance().delaysContentTouches = false
+            if !hasSeeded {
+                seedInitialData()
+                hasSeeded = true
+            }
         }
+    }
+    
+    private func seedInitialData() {
+        let calendar = Calendar.current
+        let today = Date()
+        
+        // Find Wednesday (4) and Thursday (5) of the current week natively
+        guard let wednesday = calendar.date(bySetting: .weekday, value: 4, of: today),
+              let thursday = calendar.date(bySetting: .weekday, value: 5, of: today) else { return }
+        
+        let seedEvents = [
+            ("VA Medical Checkup", "Routine checkup at the central VA clinic.", wednesday, 9, 30),
+            ("Call Battle Buddy", "Check in with Mike from the old unit.", wednesday, 11, 00),
+            ("Submit VA Prescriptions", "Refill standard medications on MyHealtheVet.", wednesday, 13, 15),
+            ("Physical Therapy", "Knee and lower back mobility session.", wednesday, 15, 00),
+            ("VFW Post Meeting", "Monthly chapter meeting and dinner.", wednesday, 18, 30),
+            
+            ("Morning Ruck/PT", "Light 3-mile ruck march to keep the legs active.", thursday, 6, 30),
+            ("Meet with VSO", "Review the new pact act claim paperwork.", thursday, 10, 00),
+            ("Community Service", "Help pack boxes at the local food bank.", thursday, 12, 00),
+            ("VA Disability Call", "Telehealth follow up for the re-evaluation.", thursday, 14, 00),
+            ("Pick up Meds", "Drive to the VA pharmacy to pick up the refills.", thursday, 16, 45)
+        ]
+        
+        for event in seedEvents {
+            if let eventDate = calendar.date(bySettingHour: event.3, minute: event.4, second: 0, of: event.2) {
+                let newItem = Item(timestamp: eventDate, title: event.0, message: event.1, location: "Veterans Center")
+                modelContext.insert(newItem)
+            }
+        }
+        
+        try? modelContext.save()
     }
 }
 
