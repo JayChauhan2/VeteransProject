@@ -51,30 +51,15 @@ struct SplashView: View {
                         )
                         .overlay(
                             VStack(spacing: 12) {
-                                Text("🇺🇸")
-                                    .font(.system(size: 44))
+                                Image("TroopCompanionLogo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 140, height: 140)
 
-                                Text("TROOP\nCOMPANION")
-                                    .font(.system(size: 26, weight: .black, design: .monospaced))
+                                Text("TroopCompanion")
+                                    .font(.system(size: 22, weight: .black, design: .monospaced))
                                     .multilineTextAlignment(.center)
                                     .foregroundColor(.white)
-                                    .lineSpacing(2)
-
-                                // Neobrutalist tag strip
-                                ZStack {
-                                    Rectangle()
-                                        .fill(Color.black)
-                                        .frame(height: 32)
-                                        .offset(x: 3, y: 3)
-                                    Rectangle()
-                                        .fill(Color(red: 0.85, green: 0.70, blue: 0.20)) // medal gold
-                                        .frame(height: 32)
-                                        .overlay(Rectangle().stroke(Color.black, lineWidth: 2))
-                                    Text("THIS IS YOUR SPLASH SCREEN")
-                                        .font(.system(size: 10, weight: .black, design: .monospaced))
-                                        .foregroundColor(.black)
-                                }
-                                .padding(.horizontal, 24)
                             }
                             .padding()
                         )

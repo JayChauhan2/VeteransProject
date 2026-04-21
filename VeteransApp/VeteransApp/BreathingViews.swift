@@ -12,86 +12,88 @@ struct BreathingExercisesListView: View {
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
             
-            VStack {
-                Text("Breathing Exercises")
-                    .font(.system(size: 32, weight: .black))
-                    .foregroundColor(theme.textColor)
-                    .padding(.top, 20)
-                
-                Text("Select a breathing exercise to begin")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(theme.textColor.opacity(0.8))
-                    .padding(.bottom, 30)
-                
-                VStack(spacing: 20) {
+            ScrollView {
+                VStack {
+                    Text("Breathing Exercises")
+                        .font(.system(size: 32, weight: .black))
+                        .foregroundColor(theme.textColor)
+                        .padding(.top, 20)
                     
-                    // Box Breathing
-                    BreathingOptionTile(
-                        title: "Box Breathing",
-                        description: "A structured breath pattern to reset focus and steady the mind during tense moments.",
-                        buttonColor: buttonColor,
-                        destination: BreathingExerciseDetailView(
+                    Text("Select a breathing exercise to begin")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(theme.textColor.opacity(0.8))
+                        .padding(.bottom, 30)
+                    
+                    VStack(spacing: 20) {
+                        
+                        // Box Breathing
+                        BreathingOptionTile(
                             title: "Box Breathing",
-                            baseSteps: [
-                                "Find a comfortable seated or lying down position.",
-                                "Inhale slowly and deeply through your nose for a count of 4",
-                                "Hold your breath for a count of 4",
-                                "Exhale slowly and completely through your mouth for a count of 4",
-                                "Hold your breath again for a count of 4"
-                            ]
-                        ).navigationBarBackButtonHidden(true)
-                    )
-                    
-                    // Deep Breathing
-                    BreathingOptionTile(
-                        title: "Deep Breathing",
-                        description: "Long, full breaths that ease physical tension and promote a sense of calm.",
-                        buttonColor: buttonColor,
-                        destination: BreathingExerciseDetailView(
+                            description: "A structured breath pattern to reset focus and steady the mind during tense moments.",
+                            buttonColor: buttonColor,
+                            destination: BreathingExerciseDetailView(
+                                title: "Box Breathing",
+                                baseSteps: [
+                                    "Find a comfortable seated or lying down position.",
+                                    "Inhale slowly and deeply through your nose for a count of 4",
+                                    "Hold your breath for a count of 4",
+                                    "Exhale slowly and completely through your mouth for a count of 4",
+                                    "Hold your breath again for a count of 4"
+                                ]
+                            ).navigationBarBackButtonHidden(true)
+                        )
+                        
+                        // Deep Breathing
+                        BreathingOptionTile(
                             title: "Deep Breathing",
-                            baseSteps: [
-                                "Sit Comfortably or lie down.",
-                                "Place one hand on your stomach and one hand on your chest.",
-                                "Breathe in slowly through your nose. Feel your stomach expand as you inhale.\nIf you are breathing from the stomach, the hand on your chest shouldn't move. Focus on filling your lower lungs with air.",
-                                "Slowly exhale, releasing all the air through your mouth. Use your hand to feel your stomach fall as you exhale."
-                            ]
-                        ).navigationBarBackButtonHidden(true)
-                    )
-                    
-                    // Wim Hof Breathing
-                    BreathingOptionTile(
-                        title: "Wim Hof Breathing",
-                        description: "A powerful breathing method that energizes the body and builds resilience through controlled intensity.",
-                        buttonColor: buttonColor,
-                        destination: BreathingExerciseDetailView(
+                            description: "Long, full breaths that ease physical tension and promote a sense of calm.",
+                            buttonColor: buttonColor,
+                            destination: BreathingExerciseDetailView(
+                                title: "Deep Breathing",
+                                baseSteps: [
+                                    "Sit Comfortably or lie down.",
+                                    "Place one hand on your stomach and one hand on your chest.",
+                                    "Breathe in slowly through your nose. Feel your stomach expand as you inhale.\nIf you are breathing from the stomach, the hand on your chest shouldn't move. Focus on filling your lower lungs with air.",
+                                    "Slowly exhale, releasing all the air through your mouth. Use your hand to feel your stomach fall as you exhale."
+                                ]
+                            ).navigationBarBackButtonHidden(true)
+                        )
+                        
+                        // Wim Hof Breathing
+                        BreathingOptionTile(
                             title: "Wim Hof Breathing",
-                            baseSteps: [
-                                "Start by sitting or lying down in a comfortable, quiet place where you won’t be disturbed.",
-                                "Inhale deeply through your nose, expanding your belly as you breathe in. Then exhale fully through your mouth. Repeat this cycle for 30-40 breaths.",
-                                "Breath Retention: After your last exhale, let the air out fully and hold your breath as long as you can.",
-                                "Relax and let your body adjust to the sensation.",
-                                "Inhale deeply and hold your breath for about 15 seconds before exhaling. This completes one round."
-                            ]
-                        ).navigationBarBackButtonHidden(true)
-                    )
-                }
-                .padding(.horizontal, 16)
-                
-                Spacer()
-                
-                // Meditating Person Graphic
-                if let uiImage = UIImage(named: "person-meditating.png") {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 250)
-                        .padding(.bottom, 20)
-                } else if let altImage = UIImage(named: "person-meditating") {
-                    Image(uiImage: altImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 250)
-                        .padding(.bottom, 20)
+                            description: "A powerful breathing method that energizes the body and builds resilience through controlled intensity.",
+                            buttonColor: buttonColor,
+                            destination: BreathingExerciseDetailView(
+                                title: "Wim Hof Breathing",
+                                baseSteps: [
+                                    "Start by sitting or lying down in a comfortable, quiet place where you won’t be disturbed.",
+                                    "Inhale deeply through your nose, expanding your belly as you breathe in. Then exhale fully through your mouth. Repeat this cycle for 30-40 breaths.",
+                                    "Breath Retention: After your last exhale, let the air out fully and hold your breath as long as you can.",
+                                    "Relax and let your body adjust to the sensation.",
+                                    "Inhale deeply and hold your breath for about 15 seconds before exhaling. This completes one round."
+                                ]
+                            ).navigationBarBackButtonHidden(true)
+                        )
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    Spacer()
+                    
+                    // Meditating Person Graphic
+                    if let uiImage = UIImage(named: "person-meditating.png") {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 250)
+                            .padding(.bottom, 20)
+                    } else if let altImage = UIImage(named: "person-meditating") {
+                        Image(uiImage: altImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 250)
+                            .padding(.bottom, 20)
+                    }
                 }
             }
         }
