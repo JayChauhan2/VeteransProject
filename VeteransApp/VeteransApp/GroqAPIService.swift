@@ -7,8 +7,7 @@ struct GroqChatMessage: Codable {
 
 class GroqAPIService {
     static let shared = GroqAPIService()
-    
-    
+
     // MARK: - CONFIGURATION
     // USER: PASTE YOUR GROQ API KEY HERE!
     var apiKey: String = "" 
